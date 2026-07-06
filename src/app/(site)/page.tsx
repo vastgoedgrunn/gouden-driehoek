@@ -290,7 +290,7 @@ function Usp({
   text: string;
 }) {
   return (
-    <div className="reveal rounded-2xl border border-line bg-cream p-6">
+    <div className="reveal rounded-2xl border border-line bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-md hover:shadow-ink/5">
       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
         {icon}
       </div>

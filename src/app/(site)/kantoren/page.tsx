@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { PlanViewer } from "@/components/plan-viewer";
+import { AvailabilityExplorer } from "@/components/availability-explorer";
 import { ButtonLink } from "@/components/ui/button";
 import { getUnits } from "@/lib/data";
 import { kantoorTypes, countByType, gezamenlijkeRuimteGebruik } from "@/lib/kantoren";
@@ -84,8 +85,20 @@ export default async function KantorenPage() {
         </div>
       </Section>
 
-      {/* Gezamenlijke ruimte */}
+      {/* Interactieve plattegrond */}
       <Section>
+        <SectionHeading
+          eyebrow="Kies je kantoor"
+          title="Ontdek de indeling"
+          intro="Klik in de plattegrond op een kantoor voor de oppervlakte en het type. De verdieping is vrij indeelbaar; prijzen op aanvraag."
+        />
+        <div className="mt-10">
+          <AvailabilityExplorer units={kantoren} />
+        </div>
+      </Section>
+
+      {/* Gezamenlijke ruimte */}
+      <Section className="bg-white">
         <SectionHeading
           eyebrow="Gezamenlijke ruimte"
           title="Meer dan alleen een kantoor"
@@ -109,7 +122,7 @@ export default async function KantorenPage() {
       </Section>
 
       {/* CTA */}
-      <Section className="bg-white">
+      <Section>
         <div className="reveal flex flex-col items-center gap-4 rounded-2xl bg-gold-tint px-8 py-10 text-center">
           <h3 className="font-display text-2xl font-bold text-ink">
             Welke maat past bij jouw organisatie?
@@ -139,7 +152,7 @@ function Feature({
   text: string;
 }) {
   return (
-    <div className="reveal rounded-2xl border border-line bg-white p-6">
+    <div className="reveal rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-md hover:shadow-ink/5">
       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
         {icon}
       </div>

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ButtonLink } from "@/components/ui/button";
-import { navItems } from "@/lib/site";
+import { navItems, siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 export function SiteHeader() {
@@ -83,27 +83,73 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {/* Mobiel menu */}
+      {/* Mobiel menu — fullscreen overlay, schuift van rechts naar links */}
       <div
         className={cn(
-          "lg:hidden overflow-hidden border-t border-line bg-cream transition-[max-height] duration-300 ease-out",
-          open ? "max-h-[80vh]" : "max-h-0 border-t-0",
+          "fixed inset-0 z-[65] flex flex-col bg-cream lg:hidden",
+          "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+          open ? "translate-x-0" : "pointer-events-none translate-x-full",
         )}
+        aria-hidden={!open}
       >
-        <nav className="container-x flex flex-col gap-1 py-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-xl px-3 py-3 text-base font-medium text-ink-soft hover:bg-sand"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <ButtonLink href="/contact" className="mt-3 w-full">
+        {/* Goud accent bovenrand */}
+        <div
+          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold-light via-gold to-gold-dark"
+          aria-hidden
+        />
+
+        <div className="container-x flex h-18 shrink-0 items-center justify-between py-3">
+          <Link href="/" aria-label="Naar home" onClick={() => setOpen(false)}>
+            <Logo />
+          </Link>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Menu sluiten"
+            className="inline-flex items-center justify-center rounded-full p-2 text-ink"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <nav className="container-x flex flex-1 flex-col justify-center gap-1">
+          {navItems.map((item, i) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                style={{ transitionDelay: open ? `${120 + i * 55}ms` : "0ms" }}
+                className={cn(
+                  "flex items-center justify-between border-b border-line/70 py-4 font-display text-2xl font-bold transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                  active ? "text-gold-dark" : "text-ink",
+                  open ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0",
+                )}
+              >
+                {item.label}
+                <ArrowUpRight
+                  className={cn("h-5 w-5", active ? "text-gold-dark" : "text-mist")}
+                />
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div
+          className={cn(
+            "container-x shrink-0 space-y-4 pb-10 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+          )}
+          style={{ transitionDelay: open ? `${120 + navItems.length * 55}ms` : "0ms" }}
+        >
+          <ButtonLink href="/contact" size="lg" className="w-full" onClick={() => setOpen(false)}>
             Interesse tonen
           </ButtonLink>
-        </nav>
+          <p className="text-center text-sm text-graphite">
+            {siteConfig.location} · Voorverkoop met {siteConfig.presaleDiscount}% korting
+          </p>
+        </div>
       </div>
     </header>
   );
