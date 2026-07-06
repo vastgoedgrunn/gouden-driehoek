@@ -34,7 +34,7 @@ function Floor({
         <h3 className="font-display text-lg font-bold text-ink">{label}</h3>
         <span className="text-xs text-mist">{sub}</span>
       </div>
-      <div className="flex gap-1.5 rounded-xl border border-line bg-white p-1.5">
+      <div className="flex flex-wrap gap-1.5 rounded-xl border border-line bg-white p-1.5">
         {units.map((u) => {
           const flex = Math.max(0.6, Number(u.oppervlakte_m2) / (totalM2 / units.length));
           const isSel = selected?.id === u.id;
@@ -47,7 +47,7 @@ function Floor({
               onClick={() => !disabled && onSelect(u)}
               aria-label={`${label} ${u.nummer} — ${statusLabel(u.status)}, circa ${u.oppervlakte_m2} m²`}
               className={cn(
-                "flex min-h-16 flex-col items-center justify-center rounded-lg border px-1 py-2 text-center transition-all",
+                "flex min-h-16 min-w-[64px] flex-col items-center justify-center rounded-lg border px-1 py-2 text-center transition-all",
                 blockStyle[u.status],
                 isSel && "ring-2 ring-gold ring-offset-1",
               )}

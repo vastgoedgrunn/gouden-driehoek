@@ -29,10 +29,10 @@ const files = [
     available: true,
   },
   {
-    title: "Plattegronden bedrijfsunits",
-    description: "Gedetailleerde plattegronden van de bedrijfsunits op de begane grond.",
-    href: "#",
-    available: false,
+    title: "Plattegrond begane grond (bedrijfsunits)",
+    description: "Voorlopige indeling van de begane grond met de unittypen A t/m D (schaal 1:200).",
+    href: "/plattegronden/begane-grond.webp",
+    available: true,
   },
 ];
 
