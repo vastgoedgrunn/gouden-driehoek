@@ -1,0 +1,5 @@
+source_media
+*.zip
+.git
+node_modules
+.next
