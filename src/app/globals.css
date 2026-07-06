@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/*
+  De Gouden Driehoek - design system
+  Licht/luchtig (wit dominant) met goud/champagne + antraciet accenten.
+*/
+
+@theme {
+  /* Kleuren */
+  --color-cream: #faf9f6;
+  --color-sand: #f3efe7;
+
+  --color-ink: #1c1d20;
+  --color-ink-soft: #33353a;
+  --color-graphite: #5b5e66;
+  --color-mist: #8b8e96;
+
+  --color-gold: #c6a15b;
+  --color-gold-light: #dcc187;
+  --color-gold-dark: #a07e3e;
+  --color-gold-tint: #f6eedc;
+
+  --color-line: #e7e2d7;
+
+  /* Typografie */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, sans-serif;
+
+  /* Radius */
+  --radius-xl2: 1.25rem;
+
+  /* Animatie */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: #fff;
+}
+
+/* Layout helper */
+.container-x {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x {
+    padding-inline: 2rem;
+  }
+}
+
+/* Gouden tekst-accent */
+.text-gold-gradient {
+  background: linear-gradient(120deg, var(--color-gold-dark), var(--color-gold-light) 60%, var(--color-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Kleine label/eyebrow */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+/* Driehoek-divider (subtiel merkmotief) */
+.tri-marker {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid var(--color-gold);
+}
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Focus states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-gold-dark);
+  outline-offset: 2px;
+}
