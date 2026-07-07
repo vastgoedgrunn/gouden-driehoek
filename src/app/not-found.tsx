@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { TriangleMark } from "@/components/logo";
+import { Logo } from "@/components/logo";
 
 export default function NotFound() {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
-      <TriangleMark className="h-12 w-auto" />
+      <Logo className="h-14 w-auto" />
       <h1 className="mt-6 font-display text-4xl font-extrabold text-ink">
         Pagina niet gevonden
       </h1>

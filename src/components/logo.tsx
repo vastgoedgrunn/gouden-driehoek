@@ -35,30 +35,27 @@ export function TriangleMark({
   );
 }
 
+import Image from "next/image";
+
 export function Logo({
   className,
   variant = "dark",
 }: {
   className?: string;
-  /** dark = donkere tekst (op lichte achtergrond), light = witte tekst (op donkere achtergrond) */
+  /** dark = origineel logo (op lichte achtergrond), light = witte versie (op donkere achtergrond) */
   variant?: "dark" | "light";
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <TriangleMark className="h-8 w-auto" />
-      <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "font-display text-lg font-extrabold tracking-tight",
-            variant === "light" ? "text-white" : "text-ink",
-          )}
-        >
-          Gouden
-        </span>
-        <span className="font-display text-lg font-extrabold tracking-tight text-gold-gradient">
-          Driehoek
-        </span>
-      </span>
-    </span>
+    <Image
+      src="/logo/logo.png"
+      alt="De Gouden Driehoek"
+      width={720}
+      height={251}
+      className={cn(
+        "h-11 w-auto sm:h-12",
+        variant === "light" && "brightness-0 invert",
+        className,
+      )}
+    />
   );
 }
