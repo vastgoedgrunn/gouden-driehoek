@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -12,10 +13,19 @@ import {
 import { Hero } from "@/components/hero";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button";
+import { FeatureCard } from "@/components/ui/feature-card";
 import { AvailabilityExplorer } from "@/components/availability-explorer";
 import { ImpressionGallery } from "@/components/impression-gallery";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { getUnits, getSiteContent, formatPrice } from "@/lib/data";
+import { presalePrice } from "@/lib/format";
+
+export const metadata: Metadata = {
+  title: "Bedrijfsunits & kantoren kopen in Stadskanaal",
+  description:
+    "De Gouden Driehoek in Stadskanaal: hoogwaardige nieuwbouw met bedrijfsunits en kantoorruimte. Nu in de voorverkoop met 10% korting — bekijk beschikbaarheid en plattegronden.",
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const [units, content] = await Promise.all([getUnits(), getSiteContent()]);
@@ -52,7 +62,7 @@ export default async function HomePage() {
               title={
                 <>
                   Een markant gebouw met een{" "}
-                  <span className="text-gold-gradient">gouden</span> uitstraling
+                  <span className="text-gold-shimmer">gouden</span> uitstraling
                 </>
               }
               intro={content.project_intro}
@@ -90,22 +100,26 @@ export default async function HomePage() {
           title="Gebouwd om in te ondernemen"
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <Usp
+          <FeatureCard
+            surface="cream"
             icon={<MapPin className="h-6 w-6" />}
             title="Zichtlocatie"
             text="Strategisch gelegen in Stadskanaal, goed bereikbaar en zichtbaar."
           />
-          <Usp
+          <FeatureCard
+            surface="cream"
             icon={<Sparkles className="h-6 w-6" />}
             title="Hoogwaardig"
             text="Duurzame, representatieve nieuwbouw met oog voor detail."
           />
-          <Usp
+          <FeatureCard
+            surface="cream"
             icon={<Building2 className="h-6 w-6" />}
             title="Flexibel indeelbaar"
             text="De kantoorlaag is vrij in te delen naar jouw wensen."
           />
-          <Usp
+          <FeatureCard
+            surface="cream"
             icon={<TrendingUp className="h-6 w-6" />}
             title="Slimme investering"
             text={`Nu instappen in de voorverkoop met ${discount}% korting.`}
@@ -127,7 +141,7 @@ export default async function HomePage() {
             icon={<Building2 className="h-5 w-5" />}
             title="Bedrijfsunits"
             subtitle="Begane grond"
-            from={Number.isFinite(minBedrijf) ? formatPrice(minBedrijf) : undefined}
+            from={Number.isFinite(minBedrijf) ? formatPrice(presalePrice(minBedrijf, discount)) : undefined}
             count={bedrijfsunits.length}
           />
           <OfferCard
@@ -136,7 +150,7 @@ export default async function HomePage() {
             icon={<Briefcase className="h-5 w-5" />}
             title="Kantoren"
             subtitle="Verdieping · vrij indeelbaar"
-            from={Number.isFinite(minKantoor) ? formatPrice(minKantoor) : undefined}
+            from={Number.isFinite(minKantoor) ? formatPrice(presalePrice(minKantoor, discount)) : undefined}
             count={kantoren.length}
           />
         </div>
@@ -150,7 +164,7 @@ export default async function HomePage() {
           intro={`Op de begane grond zijn nog ${bedrijfsunits.filter((u) => u.status === "beschikbaar").length} van de ${bedrijfsunits.length} bedrijfsunits beschikbaar. Klik op een unit voor de details.`}
         />
         <div className="mt-10">
-          <AvailabilityExplorer units={bedrijfsunits} />
+          <AvailabilityExplorer units={bedrijfsunits} discount={discount} />
         </div>
         <p className="reveal mt-6 text-sm text-graphite">
           Op zoek naar kantoorruimte?{" "}
@@ -273,29 +287,9 @@ export default async function HomePage() {
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-xl border border-line bg-white p-4 text-center">
+    <div className="rounded-xl border border-line bg-white p-4 text-center transition-colors duration-300 hover:border-gold/40">
       <p className="font-display text-3xl font-extrabold text-gold-dark">{value}</p>
       <p className="mt-1 text-xs font-medium text-graphite">{label}</p>
-    </div>
-  );
-}
-
-function Usp({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="reveal rounded-2xl border border-line bg-cream p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-md hover:shadow-ink/5">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
-        {icon}
-      </div>
-      <h3 className="mt-4 font-display text-lg font-bold text-ink">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-graphite">{text}</p>
     </div>
   );
 }
@@ -320,7 +314,7 @@ function OfferCard({
   return (
     <Link
       href={href}
-      className="reveal group relative overflow-hidden rounded-2xl border border-line bg-white"
+      className="reveal card-lift group relative overflow-hidden rounded-2xl border border-line bg-white"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
@@ -343,7 +337,9 @@ function OfferCard({
       </div>
       <div className="flex items-center justify-between p-5">
         <div>
-          <p className="text-xs text-mist">{count} ruimtes</p>
+          <p className="text-xs text-mist">
+            {count} ruimtes{from ? " · voorverkoop" : ""}
+          </p>
           <p className="font-display font-bold text-ink">
             {from ? `vanaf ${from}` : "Prijs op aanvraag"}
           </p>

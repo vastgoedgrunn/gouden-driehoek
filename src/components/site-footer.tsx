@@ -19,12 +19,12 @@ export function SiteFooter() {
           <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white">
             Ontdek
           </h3>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-4 space-y-1 text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-white/70 transition-colors hover:text-gold-light"
+                  className="inline-block py-1 text-white/70 transition-colors hover:text-gold-light"
                 >
                   {item.label}
                 </Link>
@@ -37,16 +37,36 @@ export function SiteFooter() {
           <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white">
             Contact
           </h3>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            <li>
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="transition-colors hover:text-gold-light"
+              >
+                {siteConfig.contact.email}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`tel:${siteConfig.contact.phoneHref}`}
+                className="transition-colors hover:text-gold-light"
+              >
+                {siteConfig.contact.phone}
+              </a>
+            </li>
+            <li className="text-white/60">
+              {siteConfig.address.street}
+              <br />
+              {siteConfig.address.postalCode} {siteConfig.address.city}
+            </li>
             <li>
               <Link
                 href="/contact"
-                className="text-white/70 transition-colors hover:text-gold-light"
+                className="inline-block py-1 font-semibold text-gold-light transition-colors hover:text-white"
               >
-                Interesse tonen
+                Interesse tonen →
               </Link>
             </li>
-            <li className="text-white/60">{siteConfig.location}, Nederland</li>
           </ul>
         </div>
       </div>

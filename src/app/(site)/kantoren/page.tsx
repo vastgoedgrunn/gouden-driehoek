@@ -3,8 +3,9 @@ import { PageHero } from "@/components/page-hero";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { PlanViewer } from "@/components/plan-viewer";
 import { AvailabilityExplorer } from "@/components/availability-explorer";
+import { FeatureCard } from "@/components/ui/feature-card";
 import { ButtonLink } from "@/components/ui/button";
-import { getUnits } from "@/lib/data";
+import { getUnits, getSiteContent } from "@/lib/data";
 import { kantoorTypes, countByType, gezamenlijkeRuimteGebruik } from "@/lib/kantoren";
 import {
   ArrowRight,
@@ -23,7 +24,8 @@ export const metadata: Metadata = {
 };
 
 export default async function KantorenPage() {
-  const all = await getUnits();
+  const [all, content] = await Promise.all([getUnits(), getSiteContent()]);
+  const discount = Number(content.presale_discount ?? "10");
   const kantoren = all.filter((u) => u.type === "kantoor");
   const totaalM2 = kantoren.reduce((s, u) => s + Number(u.oppervlakte_m2), 0);
 
@@ -34,14 +36,26 @@ export default async function KantorenPage() {
         title="Kantoren"
         intro="Op de verdieping komt representatieve kantoorruimte vol daglicht, met volledig glazen scheidingswanden en een ruime gezamenlijke ruimte. De indeling is flexibel en nog nader te bepalen."
         image="/impressies/impressie-05.webp"
+        imageAlt="Impressie van de kantoorruimte van De Gouden Driehoek"
+        actions={
+          <>
+            <ButtonLink href="/contact">
+              Toon je interesse
+              <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+            <ButtonLink href="#indeling" variant="ghostLight">
+              Ontdek de indeling
+            </ButtonLink>
+          </>
+        }
       />
 
       {/* Kerncijfers */}
       <Section>
         <div className="grid gap-6 sm:grid-cols-3">
-          <Feature icon={<LayoutGrid className="h-6 w-6" />} title={`${kantoren.length} kantoorunits`} text="Zes typen (A t/m F) van compact tot royaal, te combineren tot de gewenste maat." />
-          <Feature icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² verhuurbaar`} text="Naast de kantoren een grote gezamenlijke ruimte voor gedeeld gebruik." />
-          <Feature icon={<Sun className="h-6 w-6" />} title="Volglazen wanden" text="Maximaal daglicht en een open, representatieve uitstraling." />
+          <FeatureCard icon={<LayoutGrid className="h-6 w-6" />} title={`${kantoren.length} kantoorunits`} text="Zes typen (A t/m F) van compact tot royaal, te combineren tot de gewenste maat." />
+          <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² verhuurbaar`} text="Naast de kantoren een grote gezamenlijke ruimte voor gedeeld gebruik." />
+          <FeatureCard icon={<Sun className="h-6 w-6" />} title="Volglazen wanden" text="Maximaal daglicht en een open, representatieve uitstraling." />
         </div>
       </Section>
 
@@ -86,14 +100,14 @@ export default async function KantorenPage() {
       </Section>
 
       {/* Interactieve plattegrond */}
-      <Section>
+      <Section id="indeling" className="scroll-mt-20">
         <SectionHeading
           eyebrow="Kies je kantoor"
           title="Ontdek de indeling"
-          intro="Klik in de plattegrond op een kantoor voor de oppervlakte en het type. De verdieping is vrij indeelbaar; prijzen op aanvraag."
+          intro="Klik in de plattegrond of tik op een kantoor voor de oppervlakte en het type. De verdieping is vrij indeelbaar; prijzen op aanvraag."
         />
         <div className="mt-10">
-          <AvailabilityExplorer units={kantoren} />
+          <AvailabilityExplorer units={kantoren} discount={discount} />
         </div>
       </Section>
 
@@ -115,9 +129,9 @@ export default async function KantorenPage() {
           ))}
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
-          <Feature icon={<Users className="h-6 w-6" />} title="Ontmoeten" text="Een plek om te netwerken, samen te werken en te ontspannen." />
-          <Feature icon={<MessageSquare className="h-6 w-6" />} title="2 spreekruimtes" text="Aparte ruimtes voor overleg en vertrouwelijke gesprekken." />
-          <Feature icon={<DoorOpen className="h-6 w-6" />} title="Voorzieningen" text="Toiletten, berging en technische voorzieningen op de verdieping." />
+          <FeatureCard icon={<Users className="h-6 w-6" />} title="Ontmoeten" text="Een plek om te netwerken, samen te werken en te ontspannen." />
+          <FeatureCard icon={<MessageSquare className="h-6 w-6" />} title="2 spreekruimtes" text="Aparte ruimtes voor overleg en vertrouwelijke gesprekken." />
+          <FeatureCard icon={<DoorOpen className="h-6 w-6" />} title="Voorzieningen" text="Toiletten, berging en technische voorzieningen op de verdieping." />
         </div>
       </Section>
 
@@ -139,25 +153,5 @@ export default async function KantorenPage() {
         </div>
       </Section>
     </>
-  );
-}
-
-function Feature({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="reveal rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-md hover:shadow-ink/5">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
-        {icon}
-      </div>
-      <h3 className="mt-4 font-display text-lg font-bold text-ink">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-graphite">{text}</p>
-    </div>
   );
 }

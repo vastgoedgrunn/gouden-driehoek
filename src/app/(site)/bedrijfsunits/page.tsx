@@ -3,9 +3,10 @@ import { PageHero } from "@/components/page-hero";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { UnitCard } from "@/components/unit-card";
 import { AvailabilityExplorer } from "@/components/availability-explorer";
+import { FeatureCard } from "@/components/ui/feature-card";
 import { PlanViewer } from "@/components/plan-viewer";
 import { ButtonLink } from "@/components/ui/button";
-import { getUnits } from "@/lib/data";
+import { getUnits, getSiteContent } from "@/lib/data";
 import { bedrijfsunitTypes, countByType } from "@/lib/bedrijfsunits";
 import { ArrowRight, DoorOpen, Layers, Ruler } from "lucide-react";
 
@@ -16,7 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BedrijfsunitsPage() {
-  const all = await getUnits();
+  const [all, content] = await Promise.all([getUnits(), getSiteContent()]);
+  const discount = Number(content.presale_discount ?? "10");
   const units = all.filter((u) => u.type === "bedrijfsunit");
   const totaalM2 = units.reduce((s, u) => s + Number(u.oppervlakte_m2), 0);
 
@@ -27,14 +29,26 @@ export default async function BedrijfsunitsPage() {
         title="Bedrijfsunits"
         intro="Robuuste, representatieve bedrijfsunits met eigen entree en overheaddeur — ideaal voor werkplaats, opslag, showroom of een combinatie. Units zijn onderling te combineren tot de gewenste maat."
         image="/impressies/impressie-08.webp"
+        imageAlt="Impressie van de bedrijfsunits van De Gouden Driehoek"
+        actions={
+          <>
+            <ButtonLink href="/contact">
+              Toon je interesse
+              <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+            <ButtonLink href="#beschikbaarheid" variant="ghostLight">
+              Bekijk beschikbaarheid
+            </ButtonLink>
+          </>
+        }
       />
 
       {/* Kerncijfers */}
       <Section>
         <div className="grid gap-6 sm:grid-cols-3">
-          <Feature icon={<Layers className="h-6 w-6" />} title={`${units.length} bedrijfsunits`} text="Vier typen (A t/m D) van compact tot royaal, te combineren tot de gewenste maat." />
-          <Feature icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² totaal`} text="Van ca. 43 m² tot ca. 100 m² per unit, met vrije hoogte." />
-          <Feature icon={<DoorOpen className="h-6 w-6" />} title="Eigen overheaddeur" text="Elke unit heeft een eigen entree en overheaddeur voor laden en lossen." />
+          <FeatureCard icon={<Layers className="h-6 w-6" />} title={`${units.length} bedrijfsunits`} text="Vier typen (A t/m D) van compact tot royaal, te combineren tot de gewenste maat." />
+          <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² totaal`} text="Van ca. 43 m² tot ca. 100 m² per unit, met vrije hoogte." />
+          <FeatureCard icon={<DoorOpen className="h-6 w-6" />} title="Eigen overheaddeur" text="Elke unit heeft een eigen entree en overheaddeur voor laden en lossen." />
         </div>
       </Section>
 
@@ -79,14 +93,14 @@ export default async function BedrijfsunitsPage() {
       </Section>
 
       {/* Beschikbaarheid */}
-      <Section>
+      <Section id="beschikbaarheid" className="scroll-mt-20">
         <SectionHeading
           eyebrow="Beschikbaarheid"
           title="Kies je unit"
           intro="Klik op een unit voor oppervlakte, prijs en status. Oppervlaktes en prijzen zijn indicatief."
         />
         <div className="mt-10">
-          <AvailabilityExplorer units={units} />
+          <AvailabilityExplorer units={units} discount={discount} />
         </div>
       </Section>
 
@@ -95,7 +109,7 @@ export default async function BedrijfsunitsPage() {
         <SectionHeading title="Alle bedrijfsunits" />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {units.map((unit) => (
-            <UnitCard key={unit.id} unit={unit} />
+            <UnitCard key={unit.id} unit={unit} discount={discount} />
           ))}
         </div>
         <div className="reveal mt-12 flex flex-col items-center gap-4 rounded-2xl bg-gold-tint px-8 py-10 text-center">
@@ -113,25 +127,5 @@ export default async function BedrijfsunitsPage() {
         </div>
       </Section>
     </>
-  );
-}
-
-function Feature({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="reveal rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-md hover:shadow-ink/5">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
-        {icon}
-      </div>
-      <h3 className="mt-4 font-display text-lg font-bold text-ink">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-graphite">{text}</p>
-    </div>
   );
 }

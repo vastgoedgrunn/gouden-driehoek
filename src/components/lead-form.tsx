@@ -7,7 +7,13 @@ const field =
   "h-12 w-full rounded-xl border border-line bg-white px-4 text-sm text-ink outline-none transition-shadow placeholder:text-mist focus:ring-2 focus:ring-gold";
 const labelCls = "mb-1.5 block text-sm font-medium text-ink-soft";
 
-export function LeadForm({ presetUnit }: { presetUnit?: string }) {
+export function LeadForm({
+  presetUnit,
+  presetType,
+}: {
+  presetUnit?: string;
+  presetType?: "bedrijfsunit" | "kantoor";
+}) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -81,7 +87,12 @@ export function LeadForm({ presetUnit }: { presetUnit?: string }) {
           <label htmlFor="interesse_type" className={labelCls}>
             Interesse in
           </label>
-          <select id="interesse_type" name="interesse_type" defaultValue="" className={field}>
+          <select
+            id="interesse_type"
+            name="interesse_type"
+            defaultValue={presetType ?? ""}
+            className={field}
+          >
             <option value="">Maak een keuze</option>
             <option value="bedrijfsunit">Bedrijfsunit</option>
             <option value="kantoor">Kantoorruimte</option>
@@ -128,13 +139,16 @@ export function LeadForm({ presetUnit }: { presetUnit?: string }) {
       </div>
 
       {state === "error" ? (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{message}</p>
+        <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+          {message}
+        </p>
       ) : null}
 
       <button
         type="submit"
         disabled={state === "loading"}
-        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-gold px-8 font-semibold text-white transition-all hover:bg-gold-dark hover:shadow-md disabled:opacity-60 sm:w-auto"
+        aria-busy={state === "loading"}
+        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-gold px-8 font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-gold-dark hover:shadow-md disabled:translate-y-0 disabled:opacity-60 sm:w-auto"
       >
         {state === "loading" ? "Versturen…" : "Verstuur mijn interesse"}
       </button>

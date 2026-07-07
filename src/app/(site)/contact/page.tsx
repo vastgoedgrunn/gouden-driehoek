@@ -15,12 +15,17 @@ export const metadata: Metadata = {
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ unit?: string }>;
+  searchParams: Promise<{ unit?: string; type?: string }>;
 }) {
-  const { unit } = await searchParams;
+  const { unit, type } = await searchParams;
+  const kind = type === "kantoor" ? "kantoor" : "unit";
+  const presetUnit = unit ? `${kind} ${unit}` : undefined;
+  const presetType =
+    type === "kantoor" ? "kantoor" : type === "bedrijfsunit" ? "bedrijfsunit" : undefined;
   const content = await getSiteContent();
   const email = content.contact_email || siteConfig.contact.email;
   const phone = content.contact_phone || siteConfig.contact.phone;
+  const phoneHref = (content.contact_phone || siteConfig.contact.phoneHref).replace(/\s/g, "");
 
   return (
     <>
@@ -40,7 +45,7 @@ export default async function ContactPage({
               Velden met * zijn verplicht.
             </p>
             <div className="mt-6">
-              <LeadForm presetUnit={unit ? `unit ${unit}` : undefined} />
+              <LeadForm presetUnit={presetUnit} presetType={presetType} />
             </div>
           </div>
 
@@ -59,14 +64,18 @@ export default async function ContactPage({
                 {phone ? (
                   <li className="flex items-center gap-3">
                     <Phone className="h-5 w-5 text-gold-light" />
-                    <a href={`tel:${phone}`} className="hover:text-gold-light">
+                    <a href={`tel:${phoneHref}`} className="hover:text-gold-light">
                       {phone}
                     </a>
                   </li>
                 ) : null}
-                <li className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-gold-light" />
-                  {siteConfig.location}, Nederland
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold-light" />
+                  <span>
+                    {siteConfig.address.street}
+                    <br />
+                    {siteConfig.address.postalCode} {siteConfig.address.city}
+                  </span>
                 </li>
               </ul>
             </div>

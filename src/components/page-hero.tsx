@@ -5,11 +5,15 @@ export function PageHero({
   title,
   intro,
   image,
+  imageAlt = "",
+  actions,
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
   image?: string;
+  imageAlt?: string;
+  actions?: React.ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-line bg-ink text-white">
@@ -17,7 +21,7 @@ export function PageHero({
         <>
           <Image
             src={image}
-            alt=""
+            alt={imageAlt}
             fill
             sizes="100vw"
             className="object-cover opacity-40"
@@ -34,16 +38,35 @@ export function PageHero({
       <div className="container-x relative py-20 sm:py-28">
         <div className="max-w-2xl">
           {eyebrow ? (
-            <div className="mb-3 flex items-center gap-2">
+            <div
+              className="gd-rise mb-3 flex items-center gap-2"
+              style={{ "--rise-delay": "0ms" } as React.CSSProperties}
+            >
               <span className="tri-marker" aria-hidden />
               <span className="eyebrow text-gold-light">{eyebrow}</span>
             </div>
           ) : null}
-          <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+          <h1
+            className="gd-rise font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl"
+            style={{ "--rise-delay": "90ms" } as React.CSSProperties}
+          >
             {title}
           </h1>
           {intro ? (
-            <p className="mt-5 text-lg leading-relaxed text-white/80">{intro}</p>
+            <p
+              className="gd-rise mt-5 text-lg leading-relaxed text-white/80"
+              style={{ "--rise-delay": "190ms" } as React.CSSProperties}
+            >
+              {intro}
+            </p>
+          ) : null}
+          {actions ? (
+            <div
+              className="gd-rise mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+              style={{ "--rise-delay": "290ms" } as React.CSSProperties}
+            >
+              {actions}
+            </div>
           ) : null}
         </div>
       </div>

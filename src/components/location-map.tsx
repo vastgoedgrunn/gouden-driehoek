@@ -36,7 +36,8 @@ export default function LocationMap() {
         <Popup>
           <strong>{siteConfig.name}</strong>
           <br />
-          {siteConfig.location}
+          {siteConfig.address.street}, {siteConfig.address.postalCode}{" "}
+          {siteConfig.address.city}
         </Popup>
       </Marker>
     </MapContainer>

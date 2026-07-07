@@ -27,10 +27,16 @@ export function SiteHeader() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    if (open) document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  // Bovenaan (niet gescrold) staat de header over een donkere hero → lichte chrome.
+  const light = !scrolled;
 
   return (
     <header
@@ -38,12 +44,12 @@ export function SiteHeader() {
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
           ? "border-b border-line bg-cream/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent",
+          : "border-b border-transparent bg-gradient-to-b from-ink/75 via-ink/35 to-transparent",
       )}
     >
       <div className="container-x flex h-18 items-center justify-between py-3">
         <Link href="/" aria-label="Naar home" className="shrink-0">
-          <Logo />
+          <Logo variant={light ? "light" : "dark"} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -53,11 +59,16 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
+                data-active={active}
                 className={cn(
-                  "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "text-gold-dark"
-                    : "text-ink-soft hover:text-gold-dark",
+                  "nav-underline rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                  light
+                    ? active
+                      ? "text-gold-light"
+                      : "text-white/85 hover:text-white"
+                    : active
+                      ? "text-gold-dark"
+                      : "text-ink-soft hover:text-gold-dark",
                 )}
               >
                 {item.label}
@@ -67,14 +78,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <ButtonLink href="/contact" size="sm">
+          <ButtonLink href="/contact" size="sm" variant={light ? "light" : "primary"}>
             Interesse tonen
           </ButtonLink>
         </div>
 
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-full p-2 text-ink lg:hidden"
+          className={cn(
+            "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2.5 transition-colors lg:hidden",
+            light ? "text-white" : "text-ink",
+          )}
           aria-label={open ? "Menu sluiten" : "Menu openen"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -91,6 +105,7 @@ export function SiteHeader() {
           open ? "translate-x-0" : "pointer-events-none translate-x-full",
         )}
         aria-hidden={!open}
+        inert={!open}
       >
         {/* Goud accent bovenrand */}
         <div
@@ -106,7 +121,7 @@ export function SiteHeader() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Menu sluiten"
-            className="inline-flex items-center justify-center rounded-full p-2 text-ink"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2.5 text-ink"
           >
             <X className="h-6 w-6" />
           </button>
@@ -138,7 +153,7 @@ export function SiteHeader() {
 
         <div
           className={cn(
-            "container-x shrink-0 space-y-4 pb-10 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            "container-x shrink-0 space-y-4 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
             open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
           )}
           style={{ transitionDelay: open ? `${120 + navItems.length * 55}ms` : "0ms" }}

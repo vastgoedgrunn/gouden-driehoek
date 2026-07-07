@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "outline" | "ghost" | "light";
+type Variant = "primary" | "outline" | "ghost" | "light" | "ghostLight";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -15,6 +15,9 @@ const variants: Record<Variant, string> = {
   ghost: "text-ink hover:bg-ink/5",
   light:
     "bg-white text-ink shadow-sm hover:shadow-md hover:-translate-y-0.5",
+  // Secundaire knop op een donkere achtergrond (bv. in de hero)
+  ghostLight:
+    "bg-white/10 text-white ring-1 ring-inset ring-white/30 backdrop-blur-sm hover:bg-white/20 hover:-translate-y-0.5",
 };
 
 const sizes: Record<Size, string> = {

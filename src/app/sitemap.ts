@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/kantoren",
     "/voorverkoop",
     "/locatie",
+    "/faq",
     "/over",
     "/downloads",
     "/contact",

@@ -56,7 +56,7 @@ export function VideoModal({
 
       {open ? (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          className="gd-modal-overlay fixed inset-0 z-[60] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label="Videospeler"
@@ -64,14 +64,14 @@ export function VideoModal({
         >
           <button
             type="button"
-            className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+            className="absolute right-4 top-4 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
             aria-label="Video sluiten"
             onClick={() => setOpen(false)}
           >
             <X className="h-6 w-6" />
           </button>
           <div
-            className="w-full max-w-5xl overflow-hidden rounded-2xl shadow-2xl"
+            className="gd-modal-panel w-full max-w-5xl overflow-hidden rounded-2xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <video

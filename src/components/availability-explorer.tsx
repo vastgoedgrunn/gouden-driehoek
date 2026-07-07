@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { Unit } from "@/lib/types";
-import { formatPrice, statusLabel } from "@/lib/format";
+import { statusLabel } from "@/lib/format";
+import { PriceTag } from "@/components/price-tag";
 import { cn } from "@/lib/cn";
 import {
   bedrijfsunitShapes,
@@ -33,9 +34,22 @@ const fillByStatus: Record<Unit["status"], { fill: string; stroke: string; text:
   verkocht: { fill: "#e9eaec", stroke: "#c2c5cb", text: "#a2a5ac" },
 };
 
-export function AvailabilityExplorer({ units }: { units: Unit[] }) {
+const chipDot: Record<Unit["status"], string> = {
+  beschikbaar: "bg-emerald-500",
+  optie: "bg-amber-500",
+  verkocht: "bg-zinc-400",
+};
+
+export function AvailabilityExplorer({
+  units,
+  discount = 10,
+}: {
+  units: Unit[];
+  discount?: number;
+}) {
   const [selected, setSelected] = useState<Unit | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   const isKantoor = units.some((u) => u.type === "kantoor");
   const shapes: PlanShape[] = isKantoor ? kantoorShapes : bedrijfsunitShapes;
@@ -51,9 +65,25 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
   const drawn = shapes.filter((s) => byNummer.has(s.nummer));
   const selectedShape = drawn.find((s) => s.nummer === selected?.nummer);
 
+  function select(unit: Unit) {
+    if (unit.status === "verkocht") return;
+    setSelected(unit);
+    // Op smalle schermen staat het detailpaneel onder de plattegrond → in beeld brengen.
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      requestAnimationFrame(() =>
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
+      );
+    }
+  }
+
+  const sortedUnits = useMemo(
+    () => drawn.map((s) => byNummer.get(s.nummer)!),
+    [drawn, byNummer],
+  );
+
   return (
     <div className="grid gap-6 lg:grid-cols-[1.55fr_1fr]">
-      {/* Interactieve plattegrond */}
+      {/* Interactieve plattegrond + unitlijst */}
       <div className="reveal rounded-2xl border border-line bg-white p-3 sm:p-4">
         <svg
           viewBox={`0 0 ${VW} ${VH}`}
@@ -119,22 +149,23 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
             return (
               <g
                 key={s.nummer}
+                className="plan-unit"
                 role="button"
                 tabIndex={disabled ? -1 : 0}
                 aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${s.nummer} — ${statusLabel(
                   unit.status,
                 )}, circa ${unit.oppervlakte_m2} m²`}
                 aria-pressed={isSel}
-                onClick={() => !disabled && setSelected(unit)}
+                onClick={() => select(unit)}
                 onKeyDown={(e) => {
                   if (!disabled && (e.key === "Enter" || e.key === " ")) {
                     e.preventDefault();
-                    setSelected(unit);
+                    select(unit);
                   }
                 }}
                 onMouseEnter={() => setHovered(s.nummer)}
                 onMouseLeave={() => setHovered((h) => (h === s.nummer ? null : h))}
-                style={{ cursor: disabled ? "not-allowed" : "pointer", outline: "none" }}
+                style={{ cursor: disabled ? "not-allowed" : "pointer" }}
               >
                 <title>{`${s.nummer} · ${statusLabel(unit.status)} · ca. ${unit.oppervlakte_m2} m²`}</title>
                 <polygon
@@ -144,8 +175,8 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
                   strokeWidth={0.18}
                   strokeLinejoin="round"
                   style={{
-                    transition: "fill 0.18s ease, opacity 0.18s ease",
-                    opacity: isHover && !disabled ? 0.75 : 1,
+                    transition: "fill 0.2s ease, opacity 0.2s ease",
+                    opacity: (isHover || isSel) && !disabled ? 0.78 : 1,
                   }}
                 />
                 <text
@@ -172,7 +203,7 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
               stroke="#a07e3e"
               strokeWidth={0.6}
               strokeLinejoin="round"
-              style={{ pointerEvents: "none" }}
+              style={{ pointerEvents: "none", transition: "all 0.25s ease" }}
             />
           ) : null}
 
@@ -194,12 +225,48 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
           <Legend cls="bg-amber-500" text="In optie" />
           <Legend cls="bg-zinc-400" text="Verkocht" />
         </div>
+
+        {/* Tikbare unitlijst — vooral handig op mobiel */}
+        <div className="mt-4 border-t border-line pt-4">
+          <p className="mb-2 px-1 text-xs font-medium text-mist">
+            Of tik op een {isKantoor ? "kantoor" : "unit"}:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {sortedUnits.map((unit) => {
+              const disabled = unit.status === "verkocht";
+              const isSel = selected?.nummer === unit.nummer;
+              return (
+                <button
+                  key={unit.id}
+                  type="button"
+                  disabled={disabled}
+                  aria-pressed={isSel}
+                  onClick={() => select(unit)}
+                  className={cn(
+                    "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-200",
+                    disabled
+                      ? "cursor-not-allowed border-line bg-sand text-mist line-through"
+                      : isSel
+                        ? "border-gold bg-gold-tint text-gold-dark shadow-sm"
+                        : "border-line bg-white text-ink-soft hover:-translate-y-0.5 hover:border-gold/50 hover:text-gold-dark",
+                  )}
+                >
+                  <span className={cn("h-2 w-2 rounded-full", chipDot[unit.status])} aria-hidden />
+                  {unit.nummer}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Detailpaneel */}
-      <div className="reveal rounded-2xl border border-line bg-white p-6">
+      <div
+        ref={detailRef}
+        className="reveal scroll-mt-24 rounded-2xl border border-line bg-white p-6"
+      >
         {selected ? (
-          <div>
+          <div key={selected.id} className="gd-modal-panel">
             <p className="eyebrow text-mist">
               {selected.type === "bedrijfsunit" ? "Bedrijfsunit" : "Kantoor"}
             </p>
@@ -210,11 +277,10 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
             <dl className="mt-5 space-y-3 text-sm">
               <Row label="Status" value={statusLabel(selected.status)} />
               <Row label="Oppervlakte" value={`circa ${selected.oppervlakte_m2} m²`} />
-              <Row
-                label={selected.prijs_vanaf ? "Koopsom vanaf" : "Prijs"}
-                value={formatPrice(selected.prijs_vanaf)}
-              />
             </dl>
+            <div className="mt-4 border-t border-line pt-4">
+              <PriceTag value={selected.prijs_vanaf} discount={discount} size="lg" />
+            </div>
             {selected.beschrijving ? (
               <p className="mt-4 text-sm leading-relaxed text-graphite">
                 {selected.beschrijving}
@@ -222,10 +288,8 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
             ) : null}
             {selected.status !== "verkocht" ? (
               <Link
-                href={`/contact?unit=${encodeURIComponent(
-                  `${selected.type === "kantoor" ? "kantoor" : "unit"} ${selected.nummer}`,
-                )}`}
-                className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-full bg-gold px-6 font-semibold text-white transition-all hover:bg-gold-dark hover:shadow-md"
+                href={`/contact?unit=${encodeURIComponent(selected.nummer)}&type=${selected.type}`}
+                className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-gold px-6 font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-gold-dark hover:shadow-md"
               >
                 Interesse in {selected.nummer}
               </Link>
@@ -242,7 +306,7 @@ export function AvailabilityExplorer({ units }: { units: Unit[] }) {
               Selecteer een ruimte
             </p>
             <p className="mt-1 text-sm text-graphite">
-              Klik in de plattegrond op een {isKantoor ? "kantoor" : "unit"} voor
+              Klik in de plattegrond of tik op een {isKantoor ? "kantoor" : "unit"} voor
               oppervlakte, prijs en status.
             </p>
           </div>

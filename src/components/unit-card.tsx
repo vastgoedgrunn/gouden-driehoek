@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { ArrowRight, Maximize2 } from "lucide-react";
 import type { Unit } from "@/lib/types";
-import { formatPrice } from "@/lib/format";
+import { PriceTag } from "@/components/price-tag";
 import { StatusBadge } from "@/components/status-badge";
 import { cn } from "@/lib/cn";
 
-export function UnitCard({ unit }: { unit: Unit }) {
+export function UnitCard({ unit, discount = 10 }: { unit: Unit; discount?: number }) {
   const sold = unit.status === "verkocht";
   return (
     <div
       className={cn(
-        "reveal group relative flex flex-col rounded-2xl border border-line bg-white p-5 transition-all duration-300",
-        sold ? "opacity-75" : "hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/5",
+        "reveal group relative flex flex-col rounded-2xl border border-line bg-white p-5",
+        sold ? "opacity-75" : "card-lift",
       )}
     >
       <div className="flex items-start justify-between">
@@ -40,16 +40,11 @@ export function UnitCard({ unit }: { unit: Unit }) {
       ) : null}
 
       <div className="mt-5 flex items-end justify-between border-t border-line pt-4">
-        <div>
-          <p className="text-xs text-mist">Koopsom vanaf</p>
-          <p className="font-display text-xl font-bold text-ink">
-            {formatPrice(unit.prijs_vanaf)}
-          </p>
-        </div>
+        <PriceTag value={unit.prijs_vanaf} discount={discount} />
         {!sold ? (
           <Link
-            href={`/contact?unit=${encodeURIComponent(unit.nummer)}`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-gold-dark transition-colors hover:text-ink"
+            href={`/contact?unit=${encodeURIComponent(unit.nummer)}&type=${unit.type}`}
+            className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-gold-dark transition-colors hover:text-ink"
           >
             Interesse
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

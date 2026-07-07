@@ -31,6 +31,13 @@
 
   /* Animatie */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-medium: 300ms;
+  --duration-slow: 500ms;
+  --duration-reveal: 700ms;
+
+  /* Schaduw voor interactieve kaarten */
+  --shadow-card-hover: 0 14px 34px -16px rgba(28, 29, 32, 0.22);
 }
 
 :root {
@@ -86,6 +93,32 @@ h1, h2, h3, h4 {
   color: transparent;
 }
 
+/* Subtiele, langzame glans over het goud-accent (zeer ingetogen) */
+.text-gold-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--color-gold-dark) 0%,
+    var(--color-gold-light) 35%,
+    #fff5df 50%,
+    var(--color-gold-light) 65%,
+    var(--color-gold-dark) 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gd-shimmer 9s var(--ease-out-soft) infinite;
+}
+@keyframes gd-shimmer {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
 /* Kleine label/eyebrow */
 .eyebrow {
   font-family: var(--font-sans);
@@ -108,22 +141,92 @@ h1, h2, h3, h4 {
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+  transition: opacity var(--duration-reveal) var(--ease-out-soft),
+    transform var(--duration-reveal) var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal:not(.is-visible) {
   will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
+
+/* Entree-animatie (voor hero's, direct bij load) */
+@keyframes gd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
     opacity: 1;
     transform: none;
-    transition: none;
   }
-  html {
-    scroll-behavior: auto;
+}
+.gd-rise {
+  opacity: 0;
+  animation: gd-rise 0.8s var(--ease-out-soft) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+/* Modal-entree */
+@keyframes gd-fade {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes gd-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.gd-modal-overlay {
+  animation: gd-fade var(--duration-medium) var(--ease-out-soft) both;
+}
+.gd-modal-panel {
+  animation: gd-pop 0.34s var(--ease-out-soft) both;
+}
+
+/* Uniforme kaart-hover (lift + rand + schaduw) */
+.card-lift {
+  transition: transform var(--duration-medium) var(--ease-out-soft),
+    box-shadow var(--duration-medium) var(--ease-out-soft),
+    border-color var(--duration-medium) var(--ease-out-soft);
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--color-gold) 40%, transparent);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Geanimeerde nav-onderstreping */
+.nav-underline {
+  position: relative;
+}
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0.875rem;
+  right: 0.875rem;
+  bottom: 0.35rem;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-medium) var(--ease-out-soft);
+}
+.nav-underline:hover::after,
+.nav-underline[data-active="true"]::after {
+  transform: scaleX(1);
 }
 
 /* Focus states */
@@ -131,7 +234,40 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible {
+select:focus-visible,
+[role="button"]:focus-visible {
   outline: 2px solid var(--color-gold-dark);
   outline-offset: 2px;
+  transition: outline-offset 0.15s var(--ease-out-soft);
+}
+
+/* Interactieve plattegrond: zichtbare focus op SVG-units */
+.plan-unit:focus-visible {
+  outline: none;
+}
+.plan-unit:focus-visible polygon {
+  stroke: var(--color-gold-dark);
+  stroke-width: 0.6;
+}
+
+/* Respecteer prefers-reduced-motion overal */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .gd-rise {
+    opacity: 1;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

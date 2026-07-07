@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BadgePercent, CalendarClock, KeyRound, ListChecks } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { Section, SectionHeading } from "@/components/ui/section";
+import { FeatureCard } from "@/components/ui/feature-card";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { ButtonLink } from "@/components/ui/button";
 import { getSiteContent } from "@/lib/data";
@@ -23,14 +24,20 @@ export default async function VoorverkoopPage() {
         eyebrow="Voorverkoop"
         title={`Nu instappen met ${discount}% korting`}
         intro="Als je er vroeg bij bent, profiteer je van het scherpste tarief én heb je de meeste keuze in units, kantoren en indeling."
+        actions={
+          <ButtonLink href="/contact">
+            Toon je interesse
+            <ArrowRight className="h-4 w-4" />
+          </ButtonLink>
+        }
       />
 
       <Section>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <Benefit icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
-          <Benefit icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
-          <Benefit icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar — stem hem af op jouw wensen." />
-          <Benefit icon={<CalendarClock className="h-6 w-6" />} title="Vroeg zekerheid" text="Leg nu je plek vast en bouw mee aan De Gouden Driehoek." />
+          <FeatureCard icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
+          <FeatureCard icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
+          <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar — stem hem af op jouw wensen." />
+          <FeatureCard icon={<CalendarClock className="h-6 w-6" />} title="Vroeg zekerheid" text="Leg nu je plek vast en bouw mee aan De Gouden Driehoek." />
         </div>
       </Section>
 
@@ -67,29 +74,9 @@ export default async function VoorverkoopPage() {
   );
 }
 
-function Benefit({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="reveal rounded-2xl border border-line bg-white p-6">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
-        {icon}
-      </div>
-      <h3 className="mt-4 font-display text-lg font-bold text-ink">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-graphite">{text}</p>
-    </div>
-  );
-}
-
 function Step({ n, title, text }: { n: number; title: string; text: string }) {
   return (
-    <li className="reveal rounded-2xl border border-line bg-cream p-6">
+    <li className="reveal card-lift rounded-2xl border border-line bg-cream p-6">
       <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg font-bold text-white">
         {n}
       </span>

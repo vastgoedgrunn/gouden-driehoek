@@ -54,8 +54,9 @@ export function ImpressionGallery({
             key={img.src}
             type="button"
             onClick={() => setActive(i)}
+            aria-label={`Vergroot: ${img.alt}`}
             className={cn(
-              "reveal group relative aspect-[4/3] overflow-hidden rounded-xl bg-sand",
+              "reveal group relative aspect-[4/3] overflow-hidden rounded-2xl bg-sand",
               i === 0 && "col-span-2 row-span-2 md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-auto",
             )}
           >
@@ -73,20 +74,21 @@ export function ImpressionGallery({
 
       {active !== null ? (
         <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4"
+          className="gd-modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
+          aria-label={`Afbeelding: ${images[active].alt}`}
           onClick={close}
         >
           <button
-            className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+            className="absolute right-4 top-4 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
             aria-label="Sluiten"
             onClick={close}
           >
             <X className="h-6 w-6" />
           </button>
           <button
-            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+            className="absolute left-3 top-1/2 inline-flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
             aria-label="Vorige"
             onClick={(e) => {
               e.stopPropagation();
@@ -96,7 +98,7 @@ export function ImpressionGallery({
             <ChevronLeft className="h-7 w-7" />
           </button>
           <button
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+            className="absolute right-3 top-1/2 inline-flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
             aria-label="Volgende"
             onClick={(e) => {
               e.stopPropagation();
@@ -106,7 +108,7 @@ export function ImpressionGallery({
             <ChevronRight className="h-7 w-7" />
           </button>
           <div
-            className="relative h-[80vh] w-full max-w-6xl"
+            className="gd-modal-panel relative h-[80vh] w-full max-w-6xl"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
