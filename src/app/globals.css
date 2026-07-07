@@ -164,9 +164,6 @@ p {
     transform var(--duration-reveal) var(--ease-out-soft);
   transition-delay: var(--reveal-delay, 0ms);
 }
-.reveal:not(.is-visible) {
-  will-change: opacity, transform;
-}
 .reveal.is-visible {
   opacity: 1;
   transform: none;

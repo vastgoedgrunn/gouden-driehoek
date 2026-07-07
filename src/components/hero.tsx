@@ -82,9 +82,10 @@ export function Hero({
         }}
         aria-hidden
       />
-      {/* Zeer subtiele film-grain */}
+      {/* Zeer subtiele film-grain (gewone opacity i.p.v. mix-blend:
+          mix-blend zou per videoframe her-compositing forceren → lag). */}
       <div
-        className="grain-overlay pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay"
+        className="grain-overlay pointer-events-none absolute inset-0 opacity-[0.04]"
         aria-hidden
       />
 
