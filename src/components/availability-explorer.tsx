@@ -167,10 +167,12 @@ export function AvailabilityExplorer({
           />
 
           {/* Gedeelde ruimtes / kern (niet selecteerbaar) */}
-          {context.map((c) => {
+          {context.map((c, ci) => {
             const [cx, cy] = centroid(c.points);
+            const words = c.label ? c.label.split(" ") : [];
+            const multiline = c.kind === "shared" && words.length > 1;
             return (
-              <g key={c.label}>
+              <g key={ci}>
                 <polygon
                   points={toPoly(c.points)}
                   fill={c.kind === "core" ? "#efece4" : "#f6eedc"}
@@ -178,24 +180,29 @@ export function AvailabilityExplorer({
                   strokeWidth={0.15}
                   strokeDasharray={c.kind === "core" ? "0.6 0.5" : undefined}
                 />
-                <text
-                  x={sx(cx)}
-                  y={sy(cy)}
-                  fontSize={c.kind === "shared" ? 1.25 : 0.95}
-                  fill="#6b6e76"
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  style={{ pointerEvents: "none" }}
-                >
-                  {c.kind === "shared" ? (
-                    <>
-                      <tspan x={sx(cx)} dy="-0.5">Gezamenlijke</tspan>
-                      <tspan x={sx(cx)} dy="1.5">ruimte</tspan>
-                    </>
-                  ) : (
-                    c.label
-                  )}
-                </text>
+                {c.label ? (
+                  <text
+                    x={sx(cx)}
+                    y={sy(cy)}
+                    fontSize={multiline ? 1.25 : 0.9}
+                    fill="#6b6e76"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    style={{ pointerEvents: "none" }}
+                  >
+                    {multiline
+                      ? words.map((w, wi) => (
+                          <tspan
+                            key={wi}
+                            x={sx(cx)}
+                            dy={wi === 0 ? `${-(words.length - 1) * 0.6}em` : "1.2em"}
+                          >
+                            {w}
+                          </tspan>
+                        ))
+                      : c.label}
+                  </text>
+                ) : null}
               </g>
             );
           })}
