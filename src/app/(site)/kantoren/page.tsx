@@ -74,6 +74,8 @@ export default async function KantorenPage() {
             src="/plattegronden/kantoorverdieping.webp"
             alt="Plattegrond 1e verdieping De Gouden Driehoek met kantoortypen A t/m F en gezamenlijke ruimte"
             caption="1e verdieping · schaal 1:200 · indeling nader te bepalen"
+            width={1817}
+            height={866}
           />
           <div className="reveal space-y-3">
             <h3 className="font-display text-lg font-bold text-ink">Kantoortypen</h3>

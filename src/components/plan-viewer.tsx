@@ -9,10 +9,14 @@ export function PlanViewer({
   src,
   alt,
   caption,
+  width = 1600,
+  height = 1150,
 }: {
   src: string;
   alt: string;
   caption?: string;
+  width?: number;
+  height?: number;
 }) {
   const [open, setOpen] = useState(false);
   const overlayRef = useModal(open, () => setOpen(false));
@@ -29,8 +33,8 @@ export function PlanViewer({
           <Image
             src={src}
             alt={alt}
-            width={1600}
-            height={1150}
+            width={width}
+            height={height}
             className="h-auto w-full"
             sizes="(max-width: 1024px) 100vw, 900px"
           />
