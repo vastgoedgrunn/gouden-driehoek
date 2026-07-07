@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import type { Unit } from "@/lib/types";
 import { statusLabel } from "@/lib/format";
 import { PriceTag } from "@/components/price-tag";
+import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import {
   bedrijfsunitShapes,
@@ -288,12 +289,14 @@ export function AvailabilityExplorer({
               </p>
             ) : null}
             {selected.status !== "verkocht" ? (
-              <Link
+              <ButtonLink
                 href={`/contact?unit=${encodeURIComponent(selected.nummer)}&type=${selected.type}`}
-                className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-gold px-6 font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-gold-dark hover:shadow-md"
+                size="lg"
+                className="mt-6 w-full"
               >
                 Interesse in {selected.nummer}
-              </Link>
+                <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
             ) : (
               <p className="mt-6 rounded-lg bg-sand px-4 py-3 text-center text-sm text-mist">
                 Deze ruimte is verkocht.

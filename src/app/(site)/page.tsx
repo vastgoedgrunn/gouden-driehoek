@@ -86,7 +86,7 @@ export default async function HomePage() {
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
-              priority
+              loading="lazy"
             />
           </div>
         </div>
@@ -99,7 +99,7 @@ export default async function HomePage() {
           eyebrow="Waarom De Gouden Driehoek"
           title="Gebouwd om in te ondernemen"
         />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="reveal-stagger mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard
             surface="cream"
             icon={<MapPin className="h-6 w-6" />}
@@ -290,9 +290,9 @@ export default async function HomePage() {
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-xl border border-line bg-white p-4 text-center transition-colors duration-300 hover:border-gold/40">
-      <p className="font-display text-3xl font-extrabold text-gold-dark">{value}</p>
-      <p className="mt-1 text-xs font-medium text-graphite">{label}</p>
+    <div className="rounded-2xl border border-line bg-white p-4 text-center transition-colors duration-300 hover:border-gold/40">
+      <p className="font-display text-4xl font-extrabold tracking-tight text-gold-dark">{value}</p>
+      <p className="mt-1.5 text-[0.7rem] font-semibold uppercase tracking-wider text-mist">{label}</p>
     </div>
   );
 }

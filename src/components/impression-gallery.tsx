@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { useModal } from "@/lib/use-modal";
 
 export type GalleryImage = { src: string; alt: string };
 
@@ -26,20 +27,19 @@ export function ImpressionGallery({
     [images.length],
   );
 
+  // Scroll-lock, Escape, focus-trap en focus-return via de gedeelde hook.
+  const overlayRef = useModal(active !== null, close);
+
+  // Alleen de galerij-specifieke pijltjesnavigatie hier.
   useEffect(() => {
     if (active === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
     };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [active, close, prev, next]);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [active, prev, next]);
 
   return (
     <>
@@ -74,7 +74,9 @@ export function ImpressionGallery({
 
       {active !== null ? (
         <div
-          className="gd-modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+          ref={overlayRef}
+          tabIndex={-1}
+          className="gd-modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-ink/90 p-4 outline-none backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={`Afbeelding: ${images[active].alt}`}

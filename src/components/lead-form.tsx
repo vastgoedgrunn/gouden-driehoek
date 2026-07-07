@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CheckCircle2, MapPin } from "lucide-react";
 
 const field =
   "h-12 w-full rounded-xl border border-line bg-white px-4 text-sm text-ink outline-none transition-shadow placeholder:text-mist focus:ring-2 focus:ring-gold";
@@ -10,12 +10,27 @@ const labelCls = "mb-1.5 block text-sm font-medium text-ink-soft";
 export function LeadForm({
   presetUnit,
   presetType,
+  presetArea,
 }: {
   presetUnit?: string;
   presetType?: "bedrijfsunit" | "kantoor";
+  presetArea?: string;
 }) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const naamRef = useRef<HTMLInputElement>(null);
+
+  // Bij een deep-link (bv. vanaf een unit) het formulier rustig in beeld
+  // brengen en de cursor klaarzetten — behulpzaam, niet opdringerig.
+  useEffect(() => {
+    if (!presetUnit) return;
+    const t = window.setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      naamRef.current?.focus({ preventScroll: true });
+    }, 120);
+    return () => window.clearTimeout(t);
+  }, [presetUnit]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,13 +76,23 @@ export function LeadForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form ref={formRef} onSubmit={onSubmit} className="space-y-5">
+      {presetUnit ? (
+        <div className="flex items-center gap-3 rounded-xl border border-gold/30 bg-gold-tint px-4 py-3 text-sm">
+          <MapPin className="h-4 w-4 shrink-0 text-gold-dark" />
+          <span className="text-ink-soft">
+            Je toont interesse in <span className="font-semibold text-ink">{presetUnit}</span>
+            {presetArea ? ` · circa ${presetArea} m²` : ""}. Vul je gegevens aan, dan
+            nemen we contact op.
+          </span>
+        </div>
+      ) : null}
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="naam" className={labelCls}>
             Naam *
           </label>
-          <input id="naam" name="naam" required autoComplete="name" className={field} placeholder="Voor- en achternaam" />
+          <input ref={naamRef} id="naam" name="naam" required autoComplete="name" className={field} placeholder="Voor- en achternaam" />
         </div>
         <div>
           <label htmlFor="bedrijfsnaam" className={labelCls}>
@@ -123,6 +148,7 @@ export function LeadForm({
         <input
           id="gewenste_m2"
           name="gewenste_m2"
+          defaultValue={presetArea ? `circa ${presetArea} m²` : ""}
           className={field}
           placeholder="Bijv. circa 100 m² of budgetindicatie"
         />

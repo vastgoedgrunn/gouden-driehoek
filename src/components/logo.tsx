@@ -49,8 +49,10 @@ export function Logo({
     <Image
       src={variant === "light" ? "/logo/logo-dark.png" : "/logo/logo.png"}
       alt="De Gouden Driehoek"
-      width={720}
-      height={251}
+      width={360}
+      height={126}
+      sizes="160px"
+      priority
       className={cn("h-11 w-auto sm:h-12", className)}
     />
   );

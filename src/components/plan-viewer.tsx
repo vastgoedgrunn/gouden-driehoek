@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Maximize2, X } from "lucide-react";
+import { useModal } from "@/lib/use-modal";
 
 export function PlanViewer({
   src,
@@ -14,17 +15,7 @@ export function PlanViewer({
   caption?: string;
 }) {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  const overlayRef = useModal(open, () => setOpen(false));
 
   return (
     <>
@@ -57,7 +48,9 @@ export function PlanViewer({
 
       {open ? (
         <div
-          className="gd-modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+          ref={overlayRef}
+          tabIndex={-1}
+          className="gd-modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-ink/90 p-4 outline-none backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={`Vergrote weergave: ${alt}`}

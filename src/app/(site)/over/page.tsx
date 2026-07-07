@@ -96,7 +96,7 @@ export default async function OverPage() {
           title="Toekomstbestendig gebouwd"
           intro="De Gouden Driehoek wordt ontwikkeld als energiezuinige nieuwbouw, gericht op comfort, lage lasten en een lange levensduur. Definitieve specificaties volgen in het ontwerp."
         />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard surface="cream" icon={<ThermometerSun className="h-6 w-6" />} title="Goede isolatie" text="Een hoogwaardige, goed geïsoleerde schil voor comfort en lage energielasten." />
           <FeatureCard surface="cream" icon={<Zap className="h-6 w-6" />} title="Zuinige installaties" text="Energiezuinige, toekomstbestendige technische installaties." />
           <FeatureCard surface="cream" icon={<Leaf className="h-6 w-6" />} title="Daglicht & comfort" text="Volglazen wanden op de verdieping voor maximaal daglicht en een prettig binnenklimaat." />

@@ -7,6 +7,7 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ButtonLink } from "@/components/ui/button";
 import { navItems, siteConfig } from "@/lib/site";
+import { useModal } from "@/lib/use-modal";
 import { cn } from "@/lib/cn";
 
 export function SiteHeader() {
@@ -25,15 +26,8 @@ export function SiteHeader() {
     setOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    if (open) document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  // Scroll-lock, Escape, focus-trap en focus-return voor het mobiele menu.
+  const menuRef = useModal(open, () => setOpen(false));
 
   return (
     <>
@@ -89,8 +83,13 @@ export function SiteHeader() {
           Staat bewust BUITEN <header>: die heeft backdrop-blur en zou anders
           het containing block worden voor dit fixed-overlay. */}
       <div
+        ref={menuRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Hoofdmenu"
         className={cn(
-          "fixed inset-0 z-[65] flex flex-col bg-cream lg:hidden",
+          "fixed inset-0 z-[65] flex flex-col bg-cream outline-none lg:hidden",
           "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
           open ? "translate-x-0" : "pointer-events-none translate-x-full",
         )}

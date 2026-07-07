@@ -58,10 +58,14 @@ export default function RootLayout({
       className={`${inter.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-cream text-ink">
-        {/* Zonder JS blijven .reveal-elementen anders verborgen (opacity:0). */}
-        <noscript>
-          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
-        </noscript>
+        {/* Markeer zo vroeg mogelijk dat JS actief is. Pas dán worden .reveal-
+            elementen verborgen (zie globals.css). Zo is er nooit een flash van
+            verborgen content bij trage hydratie of uitgeschakelde JS. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         {children}
       </body>
     </html>

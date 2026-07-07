@@ -52,6 +52,9 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Hoogte van de sticky header; ankers landen er netjes ónder. */
+  --header-h: 4.5rem;
+  scroll-padding-top: var(--header-h);
 }
 
 body {
@@ -65,6 +68,19 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+  /* Voorkomt losse "orphan"-woorden in koppen → nettere, gebalanceerde regels */
+  text-wrap: balance;
+}
+
+/* Prettige regelafbreking in lopende tekst (voorkomt lelijke laatste regels) */
+p {
+  text-wrap: pretty;
+}
+
+/* Grote display-koppen iets strakker gespatieerd voor een premium indruk */
+.text-display {
+  letter-spacing: -0.03em;
+  line-height: 1.03;
 }
 
 ::selection {
@@ -138,7 +154,10 @@ h1, h2, h3, h4 {
 }
 
 /* Scroll-reveal */
-.reveal {
+/* Reveals worden alleen verborgen wanneer JS actief is (.js op <html>).
+   Zonder JS — of vóór hydratie — blijft alles zichtbaar, dus geen
+   "flash of hidden content". */
+.js .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity var(--duration-reveal) var(--ease-out-soft),
@@ -151,6 +170,26 @@ h1, h2, h3, h4 {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* Getrapte reveal voor rijen kaarten: elk volgend item komt iets later binnen. */
+.reveal-stagger > *:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+.reveal-stagger > *:nth-child(2) {
+  --reveal-delay: 70ms;
+}
+.reveal-stagger > *:nth-child(3) {
+  --reveal-delay: 140ms;
+}
+.reveal-stagger > *:nth-child(4) {
+  --reveal-delay: 210ms;
+}
+.reveal-stagger > *:nth-child(5) {
+  --reveal-delay: 280ms;
+}
+.reveal-stagger > *:nth-child(6) {
+  --reveal-delay: 350ms;
 }
 
 /* Entree-animatie (voor hero's, direct bij load) */
@@ -168,6 +207,43 @@ h1, h2, h3, h4 {
   opacity: 0;
   animation: gd-rise 0.8s var(--ease-out-soft) both;
   animation-delay: var(--rise-delay, 0ms);
+}
+
+/* LCP-veilige variant: alleen beweging, geen opacity → element is direct
+   zichtbaar/schilderbaar (belangrijk voor hero-koppen als LCP-element). */
+@keyframes gd-rise-solid {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+.gd-rise-solid {
+  animation: gd-rise-solid 0.8s var(--ease-out-soft) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+/* Fijne film-grain overlay voor cinematische diepte (zeer subtiel) */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Discrete scroll-indicator in de hero */
+@keyframes gd-scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.gd-scroll-dot {
+  animation: gd-scroll-hint 1.8s var(--ease-out-soft) infinite;
 }
 
 /* Modal-entree */

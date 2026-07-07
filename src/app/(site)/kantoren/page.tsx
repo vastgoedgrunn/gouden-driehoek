@@ -55,7 +55,7 @@ export default async function KantorenPage() {
       {/* Kerncijfers */}
       <Section>
         <h2 className="sr-only">In het kort</h2>
-        <div className="grid gap-6 sm:grid-cols-3">
+        <div className="reveal-stagger grid gap-6 sm:grid-cols-3">
           <FeatureCard icon={<LayoutGrid className="h-6 w-6" />} title={`${kantoren.length} kantoorunits`} text="Zes typen (A t/m F) van compact tot royaal, te combineren tot de gewenste maat." />
           <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² kantoorruimte`} text="Naast de kantoren een grote gezamenlijke ruimte voor gedeeld gebruik." />
           <FeatureCard icon={<Sun className="h-6 w-6" />} title="Volglazen wanden" text="Maximaal daglicht en een open, representatieve uitstraling." />
@@ -131,7 +131,7 @@ export default async function KantorenPage() {
             </span>
           ))}
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-3">
+        <div className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-3">
           <FeatureCard icon={<Users className="h-6 w-6" />} title="Ontmoeten" text="Een plek om te netwerken, samen te werken en te ontspannen." />
           <FeatureCard icon={<MessageSquare className="h-6 w-6" />} title="2 spreekruimtes" text="Aparte ruimtes voor overleg en vertrouwelijke gesprekken." />
           <FeatureCard icon={<DoorOpen className="h-6 w-6" />} title="Voorzieningen" text="Toiletten, berging en technische voorzieningen op de verdieping." />

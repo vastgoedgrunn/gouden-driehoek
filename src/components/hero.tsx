@@ -40,7 +40,7 @@ export function Hero({
     <section className="relative flex min-h-[88svh] items-center overflow-hidden bg-ink text-white sm:min-h-[92svh]">
       {/* Posterbeeld als basis (en als enige beeld op mobiel) */}
       <Image
-        src="/video/impressie-poster.jpg"
+        src="/video/impressie-poster.webp"
         alt=""
         fill
         priority
@@ -56,8 +56,8 @@ export function Hero({
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="/video/impressie-poster.jpg"
+          preload="none"
+          poster="/video/impressie-poster.webp"
           aria-hidden
         >
           <source src={siteConfig.videoUrl} type="video/mp4" />
@@ -73,15 +73,29 @@ export function Hero({
         className="absolute inset-0 bg-gradient-to-r from-ink/70 to-transparent"
         aria-hidden
       />
+      {/* Warme gouden light-leak linksonder — cinematische diepte */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 12% 88%, rgba(220,193,135,0.20), transparent 60%)",
+        }}
+        aria-hidden
+      />
+      {/* Zeer subtiele film-grain */}
+      <div
+        className="grain-overlay pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay"
+        aria-hidden
+      />
 
       <div className="container-x relative z-10 py-24 sm:py-28">
         <div className="max-w-2xl">
           {discount > 0 ? (
             <span
-              className="gd-rise mb-6 inline-flex items-center gap-2 rounded-full bg-gold px-4 py-1.5 text-sm font-bold text-white shadow-lg"
+              className="gd-rise mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-gold-light shadow-lg ring-1 ring-inset ring-gold-light/40 backdrop-blur-md"
               style={{ "--rise-delay": "0ms" } as React.CSSProperties}
             >
-              <span className="tri-marker" style={{ borderBottomColor: "#fff" }} aria-hidden />
+              <span className="tri-marker" aria-hidden />
               Voorverkoop &middot; {discount}% korting
             </span>
           ) : null}
@@ -93,7 +107,7 @@ export function Hero({
             {kicker}
           </p>
           <h1
-            className="gd-rise mt-3 font-display text-[2.75rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+            className="text-display gd-rise-solid mt-3 font-display text-[2.9rem] font-extrabold sm:text-6xl lg:text-[4.75rem]"
             style={{ "--rise-delay": "160ms" } as React.CSSProperties}
           >
             {title}
@@ -119,6 +133,16 @@ export function Hero({
             <VideoModal label="Bekijk de film" />
           </div>
         </div>
+      </div>
+
+      {/* Discrete scroll-indicator */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center sm:flex"
+        aria-hidden
+      >
+        <span className="flex h-10 w-6 items-start justify-center rounded-full border border-white/30 p-1.5">
+          <span className="gd-scroll-dot h-1.5 w-1.5 rounded-full bg-gold-light" />
+        </span>
       </div>
 
       {/* Onderrand-accent */}

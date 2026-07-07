@@ -1,8 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { CACHE_TAGS } from "@/lib/data";
 import type { UnitStatus } from "@/lib/types";
 
 async function requireAdmin() {
@@ -33,10 +34,10 @@ export async function updateUnit(formData: FormData) {
     .eq("id", id);
 
   if (error) console.error("updateUnit", error.message);
+  // Bust de gecachte publieke unit-data + het admin-overzicht.
+  // ("max" = stale-while-revalidate; Next 16 vereist dit tweede argument.)
+  revalidateTag(CACHE_TAGS.units, "max");
   revalidatePath("/admin/units");
-  revalidatePath("/bedrijfsunits");
-  revalidatePath("/kantoren");
-  revalidatePath("/");
 }
 
 export async function updateContent(formData: FormData) {
@@ -48,8 +49,8 @@ export async function updateContent(formData: FormData) {
       .from("site_content")
       .upsert({ key: realKey, value: String(value), updated_at: new Date().toISOString() });
   }
+  revalidateTag(CACHE_TAGS.content, "max");
   revalidatePath("/admin/teksten");
-  revalidatePath("/");
 }
 
 export async function deleteLead(formData: FormData) {

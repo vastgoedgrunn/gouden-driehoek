@@ -48,7 +48,7 @@ export default async function BedrijfsunitsPage() {
       {/* Kerncijfers */}
       <Section>
         <h2 className="sr-only">In het kort</h2>
-        <div className="grid gap-6 sm:grid-cols-3">
+        <div className="reveal-stagger grid gap-6 sm:grid-cols-3">
           <FeatureCard icon={<Layers className="h-6 w-6" />} title={`${units.length} bedrijfsunits`} text="Vier typen (A t/m D) van compact tot royaal, te combineren tot de gewenste maat." />
           <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² totaal`} text="Van ca. 43 m² tot ca. 100 m² per unit, met vrije hoogte." />
           <FeatureCard icon={<DoorOpen className="h-6 w-6" />} title="Eigen overheaddeur" text="Elke unit heeft een eigen entree en overheaddeur voor laden en lossen." />
@@ -110,7 +110,7 @@ export default async function BedrijfsunitsPage() {
       {/* Alle units */}
       <Section className="bg-white">
         <SectionHeading title="Alle bedrijfsunits" />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="reveal-stagger mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {units.map((unit) => (
             <UnitCard key={unit.id} unit={unit} discount={discount} />
           ))}

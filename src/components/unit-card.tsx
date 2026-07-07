@@ -10,7 +10,7 @@ export function UnitCard({ unit, discount = 10 }: { unit: Unit; discount?: numbe
   return (
     <div
       className={cn(
-        "reveal group relative flex flex-col rounded-2xl border border-line bg-white p-5",
+        "reveal group relative flex flex-col rounded-2xl border border-line bg-white p-5 transition-shadow focus-within:ring-2 focus-within:ring-gold/40",
         sold ? "opacity-75" : "card-lift",
       )}
     >
@@ -19,7 +19,7 @@ export function UnitCard({ unit, discount = 10 }: { unit: Unit; discount?: numbe
           <p className="eyebrow text-mist">
             {unit.type === "bedrijfsunit" ? "Bedrijfsunit" : "Kantoor"}
           </p>
-          <h3 className="mt-1 font-display text-2xl font-extrabold text-ink">
+          <h3 className="mt-1 font-display text-2xl font-bold tracking-tight text-ink">
             {unit.type === "bedrijfsunit" ? "Unit" : ""} {unit.nummer}
           </h3>
         </div>
@@ -44,7 +44,8 @@ export function UnitCard({ unit, discount = 10 }: { unit: Unit; discount?: numbe
         {!sold ? (
           <Link
             href={`/contact?unit=${encodeURIComponent(unit.nummer)}&type=${unit.type}`}
-            className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-gold-dark transition-colors hover:text-ink"
+            aria-label={`Interesse tonen in ${unit.type === "bedrijfsunit" ? "unit" : "kantoor"} ${unit.nummer}`}
+            className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-gold-dark outline-none transition-colors hover:text-ink after:absolute after:inset-0 after:rounded-2xl after:content-['']"
           >
             Interesse
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

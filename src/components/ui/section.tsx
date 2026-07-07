@@ -32,11 +32,18 @@ export function SectionHeading({
           <span className="eyebrow text-gold-dark">{eyebrow}</span>
         </div>
       ) : null}
-      <h2 className="text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
+      <h2 className="font-display text-3xl font-bold leading-[1.1] tracking-tight text-ink sm:text-[2.5rem]">
         {title}
       </h2>
       {intro ? (
-        <p className="mt-4 text-lg leading-relaxed text-graphite">{intro}</p>
+        <p
+          className={cn(
+            "mt-4 max-w-[58ch] text-lg leading-relaxed text-graphite",
+            align === "center" && "mx-auto",
+          )}
+        >
+          {intro}
+        </p>
       ) : null}
     </div>
   );

@@ -3,7 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { Section } from "@/components/ui/section";
 import { LeadForm } from "@/components/lead-form";
-import { getSiteContent } from "@/lib/data";
+import { getSiteContent, getUnits } from "@/lib/data";
 import { parseDiscount } from "@/lib/format";
 import { siteConfig } from "@/lib/site";
 
@@ -20,11 +20,18 @@ export default async function ContactPage({
   searchParams: Promise<{ unit?: string; type?: string }>;
 }) {
   const { unit, type } = await searchParams;
-  const kind = type === "kantoor" ? "kantoor" : "unit";
-  const presetUnit = unit ? `${kind} ${unit}` : undefined;
   const presetType =
     type === "kantoor" ? "kantoor" : type === "bedrijfsunit" ? "bedrijfsunit" : undefined;
-  const content = await getSiteContent();
+
+  // Zoek de unit op om context (oppervlakte, geldigheid) te bepalen.
+  const [content, units] = await Promise.all([getSiteContent(), unit ? getUnits() : Promise.resolve([])]);
+  const matchedUnit = unit
+    ? units.find((u) => u.nummer.toLowerCase() === unit.toLowerCase())
+    : undefined;
+  const kindLabel = (matchedUnit?.type ?? type) === "kantoor" ? "Kantoor" : "Unit";
+  const presetUnit = unit ? `${kindLabel} ${unit}` : undefined;
+  const presetArea = matchedUnit ? String(matchedUnit.oppervlakte_m2) : undefined;
+
   const email = content.contact_email || siteConfig.contact.email;
   const phone = content.contact_phone || siteConfig.contact.phone;
   const phoneHref = (content.contact_phone || siteConfig.contact.phoneHref).replace(/\s/g, "");
@@ -51,6 +58,7 @@ export default async function ContactPage({
                 key={`${presetUnit ?? ""}-${presetType ?? ""}`}
                 presetUnit={presetUnit}
                 presetType={presetType}
+                presetArea={presetArea}
               />
             </div>
           </div>

@@ -47,14 +47,14 @@ export function PageHero({
             </div>
           ) : null}
           <h1
-            className="gd-rise font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl"
+            className="text-display gd-rise-solid font-display text-[2.5rem] font-extrabold sm:text-5xl"
             style={{ "--rise-delay": "90ms" } as React.CSSProperties}
           >
             {title}
           </h1>
           {intro ? (
             <p
-              className="gd-rise mt-5 text-lg leading-relaxed text-white/80"
+              className="gd-rise mt-5 max-w-[58ch] text-lg leading-relaxed text-white/80"
               style={{ "--rise-delay": "190ms" } as React.CSSProperties}
             >
               {intro}

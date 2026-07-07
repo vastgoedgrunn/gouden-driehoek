@@ -36,7 +36,7 @@ export default async function VoorverkoopPage() {
 
       <Section>
         <h2 className="sr-only">Voordelen van de voorverkoop</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="reveal-stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
           <FeatureCard icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
           <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar — stem hem af op jouw wensen." />
