@@ -42,20 +42,16 @@ export function Logo({
   variant = "dark",
 }: {
   className?: string;
-  /** dark = origineel logo (op lichte achtergrond), light = witte versie (op donkere achtergrond) */
+  /** dark = origineel logo (op lichte achtergrond), light = crème/goud-versie (op donkere achtergrond) */
   variant?: "dark" | "light";
 }) {
   return (
     <Image
-      src="/logo/logo.png"
+      src={variant === "light" ? "/logo/logo-dark.png" : "/logo/logo.png"}
       alt="De Gouden Driehoek"
       width={720}
       height={251}
-      className={cn(
-        "h-11 w-auto sm:h-12",
-        variant === "light" && "brightness-0 invert",
-        className,
-      )}
+      className={cn("h-11 w-auto sm:h-12", className)}
     />
   );
 }
