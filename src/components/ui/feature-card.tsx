@@ -26,7 +26,10 @@ export function FeatureCard({
         className,
       )}
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
+      <div
+        className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-tint text-gold-dark"
+        aria-hidden
+      >
         {icon}
       </div>
       <h3 className="mt-4 font-display text-lg font-bold text-ink">{title}</h3>

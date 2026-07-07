@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Downloads",
   description:
     "Download het ontwerpvoorstel en documentatie van De Gouden Driehoek in Stadskanaal.",
+  alternates: { canonical: "/downloads" },
 };
 
 const files = [
@@ -48,6 +49,7 @@ export default function DownloadsPage() {
 
       <Section>
         <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="sr-only">Beschikbare documenten</h2>
           {files.map((file) => (
             <div
               key={file.title}
@@ -69,6 +71,7 @@ export default function DownloadsPage() {
                   href={file.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`Download ${file.title} (opent in nieuw tabblad)`}
                   className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-gold px-6 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-gold-dark hover:shadow-md"
                 >
                   <Download className="h-4 w-4" />

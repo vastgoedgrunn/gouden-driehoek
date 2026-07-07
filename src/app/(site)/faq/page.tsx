@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Veelgestelde vragen",
   description:
     "Antwoorden op veelgestelde vragen over De Gouden Driehoek in Stadskanaal: voorverkoop, koop of huur, indeling, oplevering en reserveren.",
+  alternates: { canonical: "/faq" },
 };
 
 const faqs: { q: string; a: string }[] = [

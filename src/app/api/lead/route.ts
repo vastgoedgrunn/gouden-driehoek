@@ -15,14 +15,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // Alleen door de database toegestane enum-waarden accepteren,
+    // anders valt de waarde terug op null (voorkomt check-violation → 500).
+    const interesseTypes = ["bedrijfsunit", "kantoor", "beide"];
+    const koopHuurOpties = ["koop", "huur", "onbekend"];
+    const interesseType = interesseTypes.includes(body.interesse_type)
+      ? body.interesse_type
+      : null;
+    const koopHuur = koopHuurOpties.includes(body.koop_huur) ? body.koop_huur : null;
+
     const lead = {
       naam,
       email,
       telefoon: body.telefoon ? String(body.telefoon).trim() : null,
       bedrijfsnaam: body.bedrijfsnaam ? String(body.bedrijfsnaam).trim() : null,
-      interesse_type: body.interesse_type || null,
+      interesse_type: interesseType,
       gewenste_m2: body.gewenste_m2 ? String(body.gewenste_m2).trim() : null,
-      koop_huur: body.koop_huur || null,
+      koop_huur: koopHuur,
       bericht: body.bericht ? String(body.bericht).trim() : null,
     };
 

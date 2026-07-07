@@ -18,7 +18,7 @@ import { AvailabilityExplorer } from "@/components/availability-explorer";
 import { ImpressionGallery } from "@/components/impression-gallery";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { getUnits, getSiteContent, formatPrice } from "@/lib/data";
-import { presalePrice } from "@/lib/format";
+import { presalePrice, parseDiscount } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Bedrijfsunits & kantoren kopen in Stadskanaal",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [units, content] = await Promise.all([getUnits(), getSiteContent()]);
-  const discount = Number(content.presale_discount ?? "10");
+  const discount = parseDiscount(content.presale_discount);
 
   const bedrijfsunits = units.filter((u) => u.type === "bedrijfsunit");
   const kantoren = units.filter((u) => u.type === "kantoor");
@@ -82,7 +82,7 @@ export default async function HomePage() {
           <div className="reveal relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
               src="/impressies/impressie-11.webp"
-              alt="Artist impression van De Gouden Driehoek"
+              alt="Architectimpressie van De Gouden Driehoek"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
@@ -182,11 +182,14 @@ export default async function HomePage() {
         />
         <div className="container-x relative">
           <div className="reveal mx-auto max-w-3xl text-center">
-            <span className="eyebrow text-gold-light">Voorverkoop</span>
-            <h2 className="mt-3 font-display text-4xl font-extrabold sm:text-5xl">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <span className="tri-marker" aria-hidden />
+              <span className="eyebrow text-gold-light">Voorverkoop</span>
+            </div>
+            <h2 className="font-display text-4xl font-extrabold sm:text-5xl">
               Nu instappen met {discount}% korting
             </h2>
-            <p className="mt-5 text-lg text-white/75">
+            <p className="mt-5 text-lg text-white/80">
               Wie er vroeg bij is, profiteert van het voordeligste tarief en de
               meeste keuze in units en indeling. Laat je gegevens achter en we
               houden je op de hoogte.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { navItems, siteConfig } from "@/lib/site";
 
@@ -24,7 +25,7 @@ export function SiteFooter() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="inline-block py-1 text-white/70 transition-colors hover:text-gold-light"
+                  className="inline-flex min-h-11 items-center py-1 text-white/70 transition-colors hover:text-gold-light"
                 >
                   {item.label}
                 </Link>
@@ -41,7 +42,7 @@ export function SiteFooter() {
             <li>
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="transition-colors hover:text-gold-light"
+                className="inline-flex min-h-11 items-center transition-colors hover:text-gold-light"
               >
                 {siteConfig.contact.email}
               </a>
@@ -49,7 +50,7 @@ export function SiteFooter() {
             <li>
               <a
                 href={`tel:${siteConfig.contact.phoneHref}`}
-                className="transition-colors hover:text-gold-light"
+                className="inline-flex min-h-11 items-center transition-colors hover:text-gold-light"
               >
                 {siteConfig.contact.phone}
               </a>
@@ -62,9 +63,10 @@ export function SiteFooter() {
             <li>
               <Link
                 href="/contact"
-                className="inline-block py-1 font-semibold text-gold-light transition-colors hover:text-white"
+                className="inline-flex min-h-11 items-center gap-1.5 font-semibold text-gold-light transition-colors hover:text-white"
               >
-                Interesse tonen →
+                Interesse tonen
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </li>
           </ul>
@@ -72,7 +74,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-x flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/50 sm:flex-row">
+        <div className="container-x flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/60 sm:flex-row">
           <p>
             &copy; {new Date().getFullYear()} {siteConfig.name}. Alle rechten
             voorbehouden.

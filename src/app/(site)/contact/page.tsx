@@ -4,12 +4,14 @@ import { PageHero } from "@/components/page-hero";
 import { Section } from "@/components/ui/section";
 import { LeadForm } from "@/components/lead-form";
 import { getSiteContent } from "@/lib/data";
+import { parseDiscount } from "@/lib/format";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact & interesse",
   description:
     "Toon je interesse in een bedrijfsunit of kantoor in De Gouden Driehoek. Laat je gegevens achter, we nemen snel contact op.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage({
@@ -45,7 +47,11 @@ export default async function ContactPage({
               Velden met * zijn verplicht.
             </p>
             <div className="mt-6">
-              <LeadForm presetUnit={presetUnit} presetType={presetType} />
+              <LeadForm
+                key={`${presetUnit ?? ""}-${presetType ?? ""}`}
+                presetUnit={presetUnit}
+                presetType={presetType}
+              />
             </div>
           </div>
 
@@ -85,8 +91,8 @@ export default async function ContactPage({
               </h3>
               <p className="mt-2 text-sm text-graphite">
                 Tijdens de voorverkoop profiteer je van{" "}
-                {content.presale_discount ?? "10"}% korting en heb je de meeste
-                keuze in units en indeling.
+                {parseDiscount(content.presale_discount)}% korting en heb je de
+                meeste keuze in units en indeling.
               </p>
             </div>
           </aside>

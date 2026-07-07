@@ -57,7 +57,13 @@ export default function RootLayout({
       lang="nl"
       className={`${inter.variable} ${manrope.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-cream text-ink">{children}</body>
+      <body className="min-h-full bg-cream text-ink">
+        {/* Zonder JS blijven .reveal-elementen anders verborgen (opacity:0). */}
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }

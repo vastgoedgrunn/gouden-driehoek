@@ -10,7 +10,7 @@ export function OrganizationJsonLd() {
     email: siteConfig.contact.email,
     telephone: siteConfig.contact.phone,
     description: siteConfig.description,
-    logo: `${siteConfig.url}/icon.svg`,
+    logo: `${siteConfig.url}/logo/logo.png`,
     image: `${siteConfig.url}/og.jpg`,
     address: {
       "@type": "PostalAddress",

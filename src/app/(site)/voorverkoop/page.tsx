@@ -6,17 +6,19 @@ import { FeatureCard } from "@/components/ui/feature-card";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { ButtonLink } from "@/components/ui/button";
 import { getSiteContent } from "@/lib/data";
+import { parseDiscount } from "@/lib/format";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Voorverkoop",
   description:
     "Profiteer van de voorverkoop van De Gouden Driehoek met 10% korting en de meeste keuze in units en indeling.",
+  alternates: { canonical: "/voorverkoop" },
 };
 
 export default async function VoorverkoopPage() {
   const content = await getSiteContent();
-  const discount = Number(content.presale_discount ?? "10");
+  const discount = parseDiscount(content.presale_discount);
 
   return (
     <>
@@ -33,6 +35,7 @@ export default async function VoorverkoopPage() {
       />
 
       <Section>
+        <h2 className="sr-only">Voordelen van de voorverkoop</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
           <FeatureCard icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
@@ -56,11 +59,14 @@ export default async function VoorverkoopPage() {
 
       <Section>
         <div className="reveal flex flex-col items-center gap-6 rounded-3xl bg-ink px-8 py-14 text-center text-white">
-          <span className="eyebrow text-gold-light">Blijf op de hoogte</span>
+          <div className="flex items-center justify-center gap-2">
+            <span className="tri-marker" aria-hidden />
+            <span className="eyebrow text-gold-light">Blijf op de hoogte</span>
+          </div>
           <h2 className="max-w-2xl font-display text-3xl font-extrabold sm:text-4xl">
             Ontvang updates over de voorverkoop
           </h2>
-          <p className="max-w-xl text-white/75">
+          <p className="max-w-xl text-white/80">
             We houden je op de hoogte van beschikbaarheid, prijzen en planning.
           </p>
           <NewsletterForm dark />

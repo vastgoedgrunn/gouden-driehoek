@@ -44,7 +44,11 @@ export function LeadForm({
 
   if (state === "done") {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center"
+      >
         <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
         <h3 className="mt-4 font-display text-2xl font-bold text-ink">
           Bedankt voor je interesse!
@@ -63,25 +67,25 @@ export function LeadForm({
           <label htmlFor="naam" className={labelCls}>
             Naam *
           </label>
-          <input id="naam" name="naam" required className={field} placeholder="Voor- en achternaam" />
+          <input id="naam" name="naam" required autoComplete="name" className={field} placeholder="Voor- en achternaam" />
         </div>
         <div>
           <label htmlFor="bedrijfsnaam" className={labelCls}>
             Bedrijfsnaam
           </label>
-          <input id="bedrijfsnaam" name="bedrijfsnaam" className={field} placeholder="Optioneel" />
+          <input id="bedrijfsnaam" name="bedrijfsnaam" autoComplete="organization" className={field} placeholder="Optioneel" />
         </div>
         <div>
           <label htmlFor="email" className={labelCls}>
             E-mail *
           </label>
-          <input id="email" name="email" type="email" required className={field} placeholder="jouw@email.nl" />
+          <input id="email" name="email" type="email" required autoComplete="email" className={field} placeholder="jouw@email.nl" />
         </div>
         <div>
           <label htmlFor="telefoon" className={labelCls}>
             Telefoon
           </label>
-          <input id="telefoon" name="telefoon" className={field} placeholder="06 …" />
+          <input id="telefoon" name="telefoon" type="tel" autoComplete="tel" className={field} placeholder="06 …" />
         </div>
         <div>
           <label htmlFor="interesse_type" className={labelCls}>

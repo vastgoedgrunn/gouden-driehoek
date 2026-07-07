@@ -7,6 +7,7 @@ import { FeatureCard } from "@/components/ui/feature-card";
 import { PlanViewer } from "@/components/plan-viewer";
 import { ButtonLink } from "@/components/ui/button";
 import { getUnits, getSiteContent } from "@/lib/data";
+import { parseDiscount } from "@/lib/format";
 import { bedrijfsunitTypes, countByType } from "@/lib/bedrijfsunits";
 import { ArrowRight, DoorOpen, Layers, Ruler } from "lucide-react";
 
@@ -14,11 +15,12 @@ export const metadata: Metadata = {
   title: "Bedrijfsunits",
   description:
     "12 bedrijfsunits (type A t/m D, ca. 43–100 m²) met overheaddeur op de begane grond van De Gouden Driehoek in Stadskanaal. Bekijk plattegrond, prijzen en beschikbaarheid.",
+  alternates: { canonical: "/bedrijfsunits" },
 };
 
 export default async function BedrijfsunitsPage() {
   const [all, content] = await Promise.all([getUnits(), getSiteContent()]);
-  const discount = Number(content.presale_discount ?? "10");
+  const discount = parseDiscount(content.presale_discount);
   const units = all.filter((u) => u.type === "bedrijfsunit");
   const totaalM2 = units.reduce((s, u) => s + Number(u.oppervlakte_m2), 0);
 
@@ -45,6 +47,7 @@ export default async function BedrijfsunitsPage() {
 
       {/* Kerncijfers */}
       <Section>
+        <h2 className="sr-only">In het kort</h2>
         <div className="grid gap-6 sm:grid-cols-3">
           <FeatureCard icon={<Layers className="h-6 w-6" />} title={`${units.length} bedrijfsunits`} text="Vier typen (A t/m D) van compact tot royaal, te combineren tot de gewenste maat." />
           <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² totaal`} text="Van ca. 43 m² tot ca. 100 m² per unit, met vrije hoogte." />

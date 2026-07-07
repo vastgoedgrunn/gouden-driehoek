@@ -6,6 +6,7 @@ import { AvailabilityExplorer } from "@/components/availability-explorer";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { ButtonLink } from "@/components/ui/button";
 import { getUnits, getSiteContent } from "@/lib/data";
+import { parseDiscount } from "@/lib/format";
 import { kantoorTypes, countByType, gezamenlijkeRuimteGebruik } from "@/lib/kantoren";
 import {
   ArrowRight,
@@ -21,11 +22,12 @@ export const metadata: Metadata = {
   title: "Kantoren",
   description:
     "20 kantoorunits (type A t/m F, ca. 13,5–67 m²) en een grote gezamenlijke ruimte op de verdieping van De Gouden Driehoek in Stadskanaal. Vrij indeelbaar.",
+  alternates: { canonical: "/kantoren" },
 };
 
 export default async function KantorenPage() {
   const [all, content] = await Promise.all([getUnits(), getSiteContent()]);
-  const discount = Number(content.presale_discount ?? "10");
+  const discount = parseDiscount(content.presale_discount);
   const kantoren = all.filter((u) => u.type === "kantoor");
   const totaalM2 = kantoren.reduce((s, u) => s + Number(u.oppervlakte_m2), 0);
 
@@ -52,9 +54,10 @@ export default async function KantorenPage() {
 
       {/* Kerncijfers */}
       <Section>
+        <h2 className="sr-only">In het kort</h2>
         <div className="grid gap-6 sm:grid-cols-3">
           <FeatureCard icon={<LayoutGrid className="h-6 w-6" />} title={`${kantoren.length} kantoorunits`} text="Zes typen (A t/m F) van compact tot royaal, te combineren tot de gewenste maat." />
-          <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² verhuurbaar`} text="Naast de kantoren een grote gezamenlijke ruimte voor gedeeld gebruik." />
+          <FeatureCard icon={<Ruler className="h-6 w-6" />} title={`± ${totaalM2} m² kantoorruimte`} text="Naast de kantoren een grote gezamenlijke ruimte voor gedeeld gebruik." />
           <FeatureCard icon={<Sun className="h-6 w-6" />} title="Volglazen wanden" text="Maximaal daglicht en een open, representatieve uitstraling." />
         </div>
       </Section>

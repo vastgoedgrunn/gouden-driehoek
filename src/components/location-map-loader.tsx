@@ -5,7 +5,9 @@ import dynamic from "next/dynamic";
 const LocationMap = dynamic(() => import("@/components/location-map"), {
   ssr: false,
   loading: () => (
-    <div className="h-[420px] w-full animate-pulse rounded-2xl bg-sand" />
+    <div role="status" className="h-[420px] w-full animate-pulse bg-sand">
+      <span className="sr-only">Kaart wordt geladen…</span>
+    </div>
   ),
 });
 

@@ -19,8 +19,8 @@ export async function POST(request: Request) {
       .from("newsletter_subscribers")
       .insert({ email });
 
-    // Duplicate = ook prima
-    if (error && !error.message.includes("duplicate")) {
+    // Duplicate (unique_violation 23505) = ook prima: al ingeschreven.
+    if (error && error.code !== "23505") {
       console.error("newsletter insert error", error.message);
       return NextResponse.json(
         { error: "Er ging iets mis. Probeer het later opnieuw." },

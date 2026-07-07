@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Locatie & bereikbaarheid",
   description:
     "De Gouden Driehoek ligt aan de Kathodeweg op bedrijventerrein Dideldom in Stadskanaal — goed bereikbaar, zichtbaar en met ruime parkeergelegenheid op eigen terrein.",
+  alternates: { canonical: "/locatie" },
 };
 
 const { address, geo } = siteConfig;
@@ -30,7 +31,9 @@ export default function LocatiePage() {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div className="reveal">
-            <LocationMapLoader />
+            <div className="overflow-hidden rounded-2xl border border-line">
+              <LocationMapLoader />
+            </div>
             <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-line bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-tint text-gold-dark">
@@ -43,7 +46,13 @@ export default function LocatiePage() {
                   </p>
                 </div>
               </div>
-              <ButtonLink href={mapsUrl} variant="outline" size="sm">
+              <ButtonLink
+                href={mapsUrl}
+                variant="outline"
+                size="sm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Navigation className="h-4 w-4" />
                 Route plannen
               </ButtonLink>

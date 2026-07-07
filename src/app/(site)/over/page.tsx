@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Over het project",
   description:
     "De visie achter De Gouden Driehoek: een hoogwaardig, herkenbaar en duurzaam bedrijfsgebouw voor ondernemers in Stadskanaal.",
+  alternates: { canonical: "/over" },
 };
 
 const planning = [

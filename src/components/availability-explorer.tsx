@@ -241,6 +241,7 @@ export function AvailabilityExplorer({
                   type="button"
                   disabled={disabled}
                   aria-pressed={isSel}
+                  aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${unit.nummer}, ${statusLabel(unit.status)}, circa ${unit.oppervlakte_m2} m²`}
                   onClick={() => select(unit)}
                   className={cn(
                     "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-200",

@@ -25,7 +25,8 @@ export default function LocationMap() {
       center={[lat, lng]}
       zoom={14}
       scrollWheelZoom={false}
-      className="h-[420px] w-full rounded-2xl"
+      aria-label={`Kaart met de locatie van ${siteConfig.name} aan de ${siteConfig.address.street} in ${siteConfig.address.city}`}
+      className="h-[420px] w-full"
       style={{ zIndex: 0 }}
     >
       <TileLayer

@@ -25,6 +25,8 @@ export function NewsletterForm({ dark = false }: { dark?: boolean }) {
   if (state === "done") {
     return (
       <p
+        role="status"
+        aria-live="polite"
         className={`inline-flex items-center gap-2 text-sm font-semibold ${
           dark ? "text-gold-light" : "text-emerald-700"
         }`}

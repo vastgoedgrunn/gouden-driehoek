@@ -36,12 +36,13 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b bg-cream/90 backdrop-blur-md transition-shadow duration-300",
-        scrolled ? "border-line shadow-sm shadow-ink/5" : "border-line/60",
-      )}
-    >
+    <>
+      <header
+        className={cn(
+          "sticky top-0 z-50 border-b bg-cream/90 backdrop-blur-md transition-shadow duration-300",
+          scrolled ? "border-line shadow-sm shadow-ink/5" : "border-line/60",
+        )}
+      >
       <div className="container-x flex h-18 items-center justify-between py-3">
         <Link href="/" aria-label="Naar home" className="shrink-0">
           <Logo />
@@ -81,9 +82,12 @@ export function SiteHeader() {
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
-      </div>
+        </div>
+      </header>
 
-      {/* Mobiel menu — fullscreen overlay, schuift van rechts naar links */}
+      {/* Mobiel menu — fullscreen overlay, schuift van rechts naar links.
+          Staat bewust BUITEN <header>: die heeft backdrop-blur en zou anders
+          het containing block worden voor dit fixed-overlay. */}
       <div
         className={cn(
           "fixed inset-0 z-[65] flex flex-col bg-cream lg:hidden",
@@ -152,6 +156,6 @@ export function SiteHeader() {
           </p>
         </div>
       </div>
-    </header>
+    </>
   );
 }
