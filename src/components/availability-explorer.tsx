@@ -41,6 +41,12 @@ const chipDot: Record<Unit["status"], string> = {
   verkocht: "bg-zinc-400",
 };
 
+function verdiepingLabel(v: number) {
+  if (v <= 0) return "Begane grond";
+  if (v === 1) return "1e verdieping";
+  return `${v}e verdieping`;
+}
+
 export function AvailabilityExplorer({
   units,
   discount = 10,
@@ -51,6 +57,7 @@ export function AvailabilityExplorer({
   const [selected, setSelected] = useState<Unit | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const detailRef = useRef<HTMLDivElement>(null);
+  const unitRefs = useRef<(SVGGElement | null)[]>([]);
 
   const isKantoor = units.some((u) => u.type === "kantoor");
   const shapes: PlanShape[] = isKantoor ? kantoorShapes : bedrijfsunitShapes;
@@ -63,17 +70,58 @@ export function AvailabilityExplorer({
     return m;
   }, [units]);
 
-  const drawn = shapes.filter((s) => byNummer.has(s.nummer));
+  const drawn = useMemo(
+    () => shapes.filter((s) => byNummer.has(s.nummer)),
+    [shapes, byNummer],
+  );
   const selectedShape = drawn.find((s) => s.nummer === selected?.nummer);
+
+  const counts = useMemo(
+    () => ({
+      beschikbaar: units.filter((u) => u.status === "beschikbaar").length,
+      optie: units.filter((u) => u.status === "optie").length,
+      verkocht: units.filter((u) => u.status === "verkocht").length,
+    }),
+    [units],
+  );
+
+  // Roving tabindex: standaard staat de eerste niet-verkochte unit op tabIndex 0.
+  const firstNavigable = useMemo(
+    () => drawn.findIndex((s) => byNummer.get(s.nummer)!.status !== "verkocht"),
+    [drawn, byNummer],
+  );
+  const [activeIndex, setActiveIndex] = useState<number>(
+    firstNavigable === -1 ? 0 : firstNavigable,
+  );
 
   function select(unit: Unit) {
     if (unit.status === "verkocht") return;
-    setSelected(unit);
+    const willDeselect = selected?.nummer === unit.nummer;
+    setSelected(willDeselect ? null : unit);
+    const idx = drawn.findIndex((s) => s.nummer === unit.nummer);
+    if (idx >= 0) setActiveIndex(idx);
     // Op smalle schermen staat het detailpaneel onder de plattegrond → in beeld brengen.
-    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+    if (
+      !willDeselect &&
+      typeof window !== "undefined" &&
+      window.innerWidth < 1024
+    ) {
       requestAnimationFrame(() =>
         detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
       );
+    }
+  }
+
+  function moveFocus(from: number, dir: 1 | -1) {
+    const n = drawn.length;
+    let i = from;
+    for (let step = 0; step < n; step++) {
+      i = (i + dir + n) % n;
+      if (byNummer.get(drawn[i].nummer)!.status !== "verkocht") {
+        setActiveIndex(i);
+        unitRefs.current[i]?.focus();
+        return;
+      }
     }
   }
 
@@ -96,6 +144,19 @@ export function AvailabilityExplorer({
               : "Interactieve plattegrond bedrijfsunits, begane grond"
           }
         >
+          <defs>
+            {/* Zachte gouden gloed rond de geselecteerde unit */}
+            <filter id="gd-glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow
+                dx="0"
+                dy="0"
+                stdDeviation="0.55"
+                floodColor="#a07e3e"
+                floodOpacity="0.5"
+              />
+            </filter>
+          </defs>
+
           {/* Gebouwomtrek */}
           <polygon
             points={toPoly(buildingOutline)}
@@ -121,7 +182,7 @@ export function AvailabilityExplorer({
                   x={sx(cx)}
                   y={sy(cy)}
                   fontSize={c.kind === "shared" ? 1.25 : 0.95}
-                  fill="#8b8e96"
+                  fill="#6b6e76"
                   textAnchor="middle"
                   dominantBaseline="central"
                   style={{ pointerEvents: "none" }}
@@ -140,28 +201,41 @@ export function AvailabilityExplorer({
           })}
 
           {/* Units */}
-          {drawn.map((s) => {
+          {drawn.map((s, i) => {
             const unit = byNummer.get(s.nummer)!;
             const [cx, cy] = centroid(s.points);
             const c = fillByStatus[unit.status];
             const disabled = unit.status === "verkocht";
             const isSel = selected?.nummer === s.nummer;
             const isHover = hovered === s.nummer;
+            const emphasised = (isHover || isSel) && !disabled;
             return (
               <g
                 key={s.nummer}
+                ref={(el) => {
+                  unitRefs.current[i] = el;
+                }}
                 className="plan-unit"
                 role="button"
-                tabIndex={disabled ? -1 : 0}
+                tabIndex={disabled ? -1 : i === activeIndex ? 0 : -1}
                 aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${s.nummer} — ${statusLabel(
                   unit.status,
                 )}, circa ${unit.oppervlakte_m2} m²`}
                 aria-pressed={isSel}
                 onClick={() => select(unit)}
+                onFocus={() => setActiveIndex(i)}
                 onKeyDown={(e) => {
-                  if (!disabled && (e.key === "Enter" || e.key === " ")) {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     select(unit);
+                  } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                    e.preventDefault();
+                    moveFocus(i, 1);
+                  } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                    e.preventDefault();
+                    moveFocus(i, -1);
+                  } else if (e.key === "Escape") {
+                    setSelected(null);
                   }
                 }}
                 onMouseEnter={() => setHovered(s.nummer)}
@@ -173,11 +247,12 @@ export function AvailabilityExplorer({
                   points={toPoly(s.points)}
                   fill={c.fill}
                   stroke={c.stroke}
-                  strokeWidth={0.18}
+                  strokeWidth={emphasised ? 0.42 : 0.18}
                   strokeLinejoin="round"
                   style={{
-                    transition: "fill 0.2s ease, opacity 0.2s ease",
-                    opacity: (isHover || isSel) && !disabled ? 0.78 : 1,
+                    transition:
+                      "fill 0.2s ease, opacity 0.2s ease, stroke-width 0.2s ease",
+                    opacity: emphasised ? 0.85 : 1,
                   }}
                 />
                 <text
@@ -196,15 +271,19 @@ export function AvailabilityExplorer({
             );
           })}
 
-          {/* Geselecteerde unit bovenop (gouden rand) */}
+          {/* Geselecteerde unit bovenop: gouden rand + zachte gloed + lichte fill */}
           {selectedShape ? (
             <polygon
+              key={selectedShape.nummer}
+              className="gd-plan-selected"
               points={toPoly(selectedShape.points)}
-              fill="none"
+              fill="#a07e3e"
+              fillOpacity={0.1}
               stroke="#a07e3e"
               strokeWidth={0.6}
               strokeLinejoin="round"
-              style={{ pointerEvents: "none", transition: "all 0.25s ease" }}
+              filter="url(#gd-glow)"
+              style={{ pointerEvents: "none" }}
             />
           ) : null}
 
@@ -213,7 +292,7 @@ export function AvailabilityExplorer({
             x={sx(30)}
             y={sy(0) + 2.6}
             fontSize={1.15}
-            fill="#8b8e96"
+            fill="#6b6e76"
             textAnchor="middle"
             letterSpacing="0.15"
           >
@@ -222,9 +301,9 @@ export function AvailabilityExplorer({
         </svg>
 
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 px-1 text-xs text-graphite">
-          <Legend cls="bg-emerald-500" text="Beschikbaar" />
-          <Legend cls="bg-amber-500" text="In optie" />
-          <Legend cls="bg-zinc-400" text="Verkocht" />
+          <Legend cls="bg-emerald-500" text="Beschikbaar" count={counts.beschikbaar} />
+          <Legend cls="bg-amber-500" text="In optie" count={counts.optie} />
+          <Legend cls="bg-zinc-400" text="Verkocht" count={counts.verkocht} />
         </div>
 
         {/* Tikbare unitlijst — vooral handig op mobiel */}
@@ -244,6 +323,12 @@ export function AvailabilityExplorer({
                   aria-pressed={isSel}
                   aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${unit.nummer}, ${statusLabel(unit.status)}, circa ${unit.oppervlakte_m2} m²`}
                   onClick={() => select(unit)}
+                  onMouseEnter={() => !disabled && setHovered(unit.nummer)}
+                  onMouseLeave={() =>
+                    setHovered((h) => (h === unit.nummer ? null : h))
+                  }
+                  onFocus={() => !disabled && setHovered(unit.nummer)}
+                  onBlur={() => setHovered((h) => (h === unit.nummer ? null : h))}
                   className={cn(
                     "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-200",
                     disabled
@@ -278,6 +363,8 @@ export function AvailabilityExplorer({
             </h3>
             <dl className="mt-5 space-y-3 text-sm">
               <Row label="Status" value={statusLabel(selected.status)} />
+              <Row label="Type" value={`Type ${selected.nummer.replace(/[0-9]/g, "")}`} />
+              <Row label="Verdieping" value={verdiepingLabel(selected.verdieping)} />
               <Row label="Oppervlakte" value={`circa ${selected.oppervlakte_m2} m²`} />
             </dl>
             <div className="mt-4 border-t border-line pt-4">
@@ -320,11 +407,12 @@ export function AvailabilityExplorer({
   );
 }
 
-function Legend({ cls, text }: { cls: string; text: string }) {
+function Legend({ cls, text, count }: { cls: string; text: string; count: number }) {
   return (
     <span className="inline-flex items-center gap-1.5">
       <span className={cn("h-2.5 w-2.5 rounded-sm", cls)} aria-hidden />
       {text}
+      <span className="font-semibold text-ink-soft">{count}</span>
     </span>
   );
 }

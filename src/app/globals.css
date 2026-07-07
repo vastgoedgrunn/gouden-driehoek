@@ -314,13 +314,34 @@ select:focus-visible,
   transition: outline-offset 0.15s var(--ease-out-soft);
 }
 
-/* Interactieve plattegrond: zichtbare focus op SVG-units */
-.plan-unit:focus-visible {
+/* Interactieve plattegrond: geen lelijke UA-focusring (blauwe cirkel) bij
+   muis/tap. Toetsenbordgebruikers krijgen een nette gouden rand via
+   :focus-visible hieronder. */
+.plan-unit {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.plan-unit:focus {
   outline: none;
 }
 .plan-unit:focus-visible polygon {
   stroke: var(--color-gold-dark);
-  stroke-width: 0.6;
+  stroke-width: 0.7;
+}
+
+/* Zachte "teken-in" van de gouden selectierand */
+@keyframes gd-plan-select {
+  from {
+    opacity: 0;
+    stroke-width: 0.2;
+  }
+  to {
+    opacity: 1;
+    stroke-width: 0.6;
+  }
+}
+.gd-plan-selected {
+  animation: gd-plan-select 0.25s var(--ease-out-soft) both;
 }
 
 /* Respecteer prefers-reduced-motion overal */
