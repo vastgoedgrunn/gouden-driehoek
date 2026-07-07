@@ -35,21 +35,16 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  // Bovenaan (niet gescrold) staat de header over een donkere hero → lichte chrome.
-  const light = !scrolled;
-
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "border-b border-line bg-cream/85 backdrop-blur-md"
-          : "border-b border-transparent bg-gradient-to-b from-ink/75 via-ink/35 to-transparent",
+        "sticky top-0 z-50 border-b bg-cream/90 backdrop-blur-md transition-shadow duration-300",
+        scrolled ? "border-line shadow-sm shadow-ink/5" : "border-line/60",
       )}
     >
       <div className="container-x flex h-18 items-center justify-between py-3">
         <Link href="/" aria-label="Naar home" className="shrink-0">
-          <Logo variant={light ? "light" : "dark"} />
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -62,13 +57,7 @@ export function SiteHeader() {
                 data-active={active}
                 className={cn(
                   "nav-underline rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                  light
-                    ? active
-                      ? "text-gold-light"
-                      : "text-white/85 hover:text-white"
-                    : active
-                      ? "text-gold-dark"
-                      : "text-ink-soft hover:text-gold-dark",
+                  active ? "text-gold-dark" : "text-ink-soft hover:text-gold-dark",
                 )}
               >
                 {item.label}
@@ -78,17 +67,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <ButtonLink href="/contact" size="sm" variant={light ? "light" : "primary"}>
+          <ButtonLink href="/contact" size="sm">
             Interesse tonen
           </ButtonLink>
         </div>
 
         <button
           type="button"
-          className={cn(
-            "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2.5 transition-colors lg:hidden",
-            light ? "text-white" : "text-ink",
-          )}
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2.5 text-ink transition-colors lg:hidden"
           aria-label={open ? "Menu sluiten" : "Menu openen"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
