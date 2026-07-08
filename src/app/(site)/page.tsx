@@ -23,7 +23,7 @@ import { presalePrice, parseDiscount } from "@/lib/format";
 export const metadata: Metadata = {
   title: "Bedrijfsunits & kantoren kopen in Stadskanaal",
   description:
-    "De Gouden Driehoek in Stadskanaal: hoogwaardige nieuwbouw met bedrijfsunits en kantoorruimte. Nu in de voorverkoop met 10% korting — bekijk beschikbaarheid en plattegronden.",
+    "De Gouden Driehoek in Stadskanaal: hoogwaardige nieuwbouw met bedrijfsunits en kantoorruimte. Nu in de voorverkoop met 10% korting. Bekijk beschikbaarheid en plattegronden.",
   alternates: { canonical: "/" },
 };
 

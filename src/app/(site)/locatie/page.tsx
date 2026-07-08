@@ -10,7 +10,7 @@ import { ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Locatie & bereikbaarheid",
   description:
-    "De Gouden Driehoek ligt aan de Kathodeweg op bedrijventerrein Dideldom in Stadskanaal — goed bereikbaar, zichtbaar en met ruime parkeergelegenheid op eigen terrein.",
+    "De Gouden Driehoek ligt aan de Kathodeweg op bedrijventerrein Dideldom in Stadskanaal, goed bereikbaar, zichtbaar en met ruime parkeergelegenheid op eigen terrein.",
   alternates: { canonical: "/locatie" },
 };
 
@@ -23,7 +23,7 @@ export default function LocatiePage() {
       <PageHero
         eyebrow="Locatie & bereikbaarheid"
         title="Aan de Kathodeweg in Stadskanaal"
-        intro="Een zichtbare, goed bereikbare plek op bedrijventerrein Dideldom — met ruimte om te ondernemen en dichtbij de belangrijkste verbindingen in de regio."
+        intro="Een zichtbare, goed bereikbare plek op bedrijventerrein Dideldom, met ruimte om te ondernemen en dichtbij de belangrijkste verbindingen in de regio."
         image="/impressies/impressie-02.webp"
         imageAlt="De Gouden Driehoek in de omgeving van Stadskanaal"
       />

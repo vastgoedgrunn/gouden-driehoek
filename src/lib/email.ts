@@ -34,7 +34,7 @@ export async function sendLeadEmails(lead: LeadPayload) {
     from,
     to: notify,
     replyTo: lead.email,
-    subject: `Nieuwe interesse — ${lead.naam}`,
+    subject: `Nieuwe interesse: ${lead.naam}`,
     html: `
       <div style="font-family:Inter,Arial,sans-serif;max-width:560px">
         <h2 style="color:#1c1d20">Nieuwe aanmelding via de website</h2>

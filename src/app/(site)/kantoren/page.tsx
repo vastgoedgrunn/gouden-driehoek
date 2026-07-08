@@ -21,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: "Kantoren",
   description:
-    "20 kantoorunits (type A t/m F, ca. 13,5–67 m²) en een grote gezamenlijke ruimte op de verdieping van De Gouden Driehoek in Stadskanaal. Vrij indeelbaar.",
+    "20 kantoorunits (type A t/m F, ca. 13,5 tot 67 m²) en een grote gezamenlijke ruimte op de verdieping van De Gouden Driehoek in Stadskanaal. Vrij indeelbaar.",
   alternates: { canonical: "/kantoren" },
 };
 
@@ -90,7 +90,7 @@ export default async function KantorenPage() {
                     <span className={`h-5 w-5 shrink-0 rounded ${t.swatch}`} aria-hidden />
                     <span className="flex-1">
                       <span className="font-semibold text-ink">Type {t.code}</span>{" "}
-                      <span className="text-sm text-graphite">— {t.oppervlakte}</span>
+                      <span className="text-sm text-graphite">· {t.oppervlakte}</span>
                       <span className="block text-xs text-mist">{t.label}</span>
                     </span>
                     <span className="rounded-full bg-white px-2.5 py-1 text-sm font-bold text-gold-dark ring-1 ring-line">
@@ -148,7 +148,7 @@ export default async function KantorenPage() {
           </h3>
           <p className="max-w-lg text-graphite">
             De verdieping is vrij indeelbaar. Van één compacte unit tot een
-            volledige vleugel — we stemmen de indeling en oppervlakte samen met je
+            volledige vleugel. We stemmen de indeling en oppervlakte samen met je
             af.
           </p>
           <ButtonLink href="/contact">

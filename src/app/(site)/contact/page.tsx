@@ -41,7 +41,7 @@ export default async function ContactPage({
       <PageHero
         eyebrow="Contact & interesse"
         title="Laat van je horen"
-        intro="Interesse in een unit of kantoor, of gewoon een vraag? Vul het formulier in — we nemen zo snel mogelijk persoonlijk contact met je op."
+        intro="Interesse in een unit of kantoor, of gewoon een vraag? Vul het formulier in, dan nemen we zo snel mogelijk persoonlijk contact met je op."
       />
 
       <Section>

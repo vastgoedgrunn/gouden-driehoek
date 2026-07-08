@@ -39,7 +39,7 @@ export default async function VoorverkoopPage() {
         <div className="reveal-stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
           <FeatureCard icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
-          <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar — stem hem af op jouw wensen." />
+          <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar. Stem hem af op jouw wensen." />
           <FeatureCard icon={<CalendarClock className="h-6 w-6" />} title="Vroeg zekerheid" text="Leg nu je plek vast en bouw mee aan De Gouden Driehoek." />
         </div>
       </Section>
@@ -48,7 +48,7 @@ export default async function VoorverkoopPage() {
         <SectionHeading
           eyebrow="Hoe werkt het"
           title="In drie stappen"
-          intro="Van eerste interesse tot vastlegging — we begeleiden je persoonlijk."
+          intro="Van eerste interesse tot vastlegging begeleiden we je persoonlijk."
         />
         <ol className="mt-10 grid gap-6 md:grid-cols-3">
           <Step n={1} title="Toon je interesse" text="Laat je gegevens achter en geef aan waar je naar op zoek bent." />

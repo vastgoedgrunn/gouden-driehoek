@@ -14,7 +14,7 @@ import { ArrowRight, DoorOpen, Layers, Ruler } from "lucide-react";
 export const metadata: Metadata = {
   title: "Bedrijfsunits",
   description:
-    "12 bedrijfsunits (type A t/m D, ca. 43–100 m²) met overheaddeur op de begane grond van De Gouden Driehoek in Stadskanaal. Bekijk plattegrond, prijzen en beschikbaarheid.",
+    "12 bedrijfsunits (type A t/m D, ca. 43 tot 100 m²) met overheaddeur op de begane grond van De Gouden Driehoek in Stadskanaal. Bekijk plattegrond, prijzen en beschikbaarheid.",
   alternates: { canonical: "/bedrijfsunits" },
 };
 
@@ -29,7 +29,7 @@ export default async function BedrijfsunitsPage() {
       <PageHero
         eyebrow="Begane grond"
         title="Bedrijfsunits"
-        intro="Robuuste, representatieve bedrijfsunits met eigen entree en overheaddeur — ideaal voor werkplaats, opslag, showroom of een combinatie. Units zijn onderling te combineren tot de gewenste maat."
+        intro="Robuuste, representatieve bedrijfsunits met eigen entree en overheaddeur, ideaal voor werkplaats, opslag, showroom of een combinatie. Units zijn onderling te combineren tot de gewenste maat."
         image="/impressies/impressie-08.webp"
         imageAlt="Impressie van de bedrijfsunits van De Gouden Driehoek"
         actions={
@@ -81,7 +81,7 @@ export default async function BedrijfsunitsPage() {
                     <span className={`h-5 w-5 shrink-0 rounded ${t.swatch}`} aria-hidden />
                     <span className="flex-1">
                       <span className="font-semibold text-ink">Type {t.code}</span>{" "}
-                      <span className="text-sm text-graphite">— {t.oppervlakte}</span>
+                      <span className="text-sm text-graphite">· {t.oppervlakte}</span>
                       <span className="block text-xs text-mist">{t.label}</span>
                     </span>
                     <span className="rounded-full bg-white px-2.5 py-1 text-sm font-bold text-gold-dark ring-1 ring-line">

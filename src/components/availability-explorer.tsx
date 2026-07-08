@@ -225,7 +225,7 @@ export function AvailabilityExplorer({
                 className="plan-unit"
                 role="button"
                 tabIndex={disabled ? -1 : i === activeIndex ? 0 : -1}
-                aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${s.nummer} — ${statusLabel(
+                aria-label={`${isKantoor ? "Kantoor" : "Unit"} ${s.nummer}, ${statusLabel(
                   unit.status,
                 )}, circa ${unit.oppervlakte_m2} m²`}
                 aria-pressed={isSel}

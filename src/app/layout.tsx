@@ -18,8 +18,8 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} ${siteConfig.location} — bedrijfsunits & kantoren`,
-    template: `%s — ${siteConfig.name}`,
+    default: `${siteConfig.name} ${siteConfig.location} · bedrijfsunits & kantoren`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nl_NL",
     url: siteConfig.url,
-    title: `${siteConfig.name} — ${siteConfig.location}`,
+    title: `${siteConfig.name} · ${siteConfig.location}`,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: siteConfig.name }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.location}`,
+    title: `${siteConfig.name} · ${siteConfig.location}`,
     description: siteConfig.description,
     images: ["/og.jpg"],
   },

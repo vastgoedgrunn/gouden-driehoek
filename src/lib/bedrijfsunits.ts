@@ -11,7 +11,7 @@ export type BedrijfsunitType = {
 export const bedrijfsunitTypes: BedrijfsunitType[] = [
   { code: "A", oppervlakte: "ca. 50 m²", label: "Standaardunit aan de voorzijde", swatch: "bg-pink-300" },
   { code: "B", oppervlakte: "ca. 75 m²", label: "Ruime unit, centraal gelegen", swatch: "bg-emerald-300" },
-  { code: "C", oppervlakte: "ca. 43 m²", label: "Hoekunit — evt. uit te breiden", swatch: "bg-orange-200" },
+  { code: "C", oppervlakte: "ca. 43 m²", label: "Hoekunit, evt. uit te breiden", swatch: "bg-orange-200" },
   { code: "D", oppervlakte: "ca. 100 m²", label: "Royale unit met veel ruimte", swatch: "bg-sky-300" },
 ];
 

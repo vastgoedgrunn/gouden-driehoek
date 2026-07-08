@@ -27,7 +27,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Kan ik de indeling zelf bepalen?",
-    a: "De kantoorlaag is vrij indeelbaar en volledig af te stemmen op jouw wensen — van één compacte unit tot een volledige vleugel. Ook bedrijfsunits zijn onderling te combineren tot de gewenste maat.",
+    a: "De kantoorlaag is vrij indeelbaar en volledig af te stemmen op jouw wensen, van één compacte unit tot een volledige vleugel. Ook bedrijfsunits zijn onderling te combineren tot de gewenste maat.",
   },
   {
     q: "Zijn de genoemde prijzen inclusief of exclusief btw?",
@@ -58,7 +58,7 @@ export default function FaqPage() {
       <PageHero
         eyebrow="Veelgestelde vragen"
         title="Goed om te weten"
-        intro="De belangrijkste vragen over de voorverkoop, koop of huur, indeling en oplevering — overzichtelijk op een rij."
+        intro="De belangrijkste vragen over de voorverkoop, koop of huur, indeling en oplevering, overzichtelijk op een rij."
       />
 
       <Section>
@@ -66,7 +66,7 @@ export default function FaqPage() {
           <SectionHeading
             eyebrow="FAQ"
             title="Antwoorden op je vragen"
-            intro="Staat jouw vraag er niet bij? Neem gerust contact op — we denken graag met je mee."
+            intro="Staat jouw vraag er niet bij? Neem gerust contact op, we denken graag met je mee."
           />
           <div className="reveal space-y-3">
             {faqs.map((item) => (
