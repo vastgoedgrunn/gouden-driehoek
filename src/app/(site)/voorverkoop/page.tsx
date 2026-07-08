@@ -210,40 +210,45 @@ export default async function VoorverkoopPage() {
       </MediaSplit>
 
       {/* Zo werkt het */}
-      <MediaSplit
-        className="bg-cream"
-        image="/impressies/impressie-09.webp"
-        alt="Impressie van de bedrijfsunits op de begane grond van De Gouden Driehoek"
-      >
-        <div className="mb-3 flex items-center gap-2">
-          <span className="tri-marker" aria-hidden />
-          <span className="eyebrow text-gold-dark">Hoe werkt het</span>
+      <Section className="bg-cream">
+        <div className="reveal mx-auto max-w-2xl text-center">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <span className="tri-marker" aria-hidden />
+            <span className="eyebrow text-gold-dark">Hoe werkt het</span>
+          </div>
+          <h2 className="font-display text-3xl font-bold leading-[1.1] tracking-tight text-ink sm:text-[2.5rem]">
+            Zo werkt het
+          </h2>
+          <p className="mt-4 text-graphite">
+            Van eerste interesse tot vastlegging begeleiden we je persoonlijk, in drie
+            overzichtelijke stappen.
+          </p>
         </div>
-        <h2 className="font-display text-3xl font-bold leading-[1.1] tracking-tight text-ink sm:text-[2.5rem]">
-          Zo werkt het
-        </h2>
-        <p className="reveal mt-4 text-graphite">
-          Van eerste interesse tot vastlegging begeleiden we je persoonlijk, in drie
-          overzichtelijke stappen.
-        </p>
-        <ol className="reveal mt-8 space-y-6">
-          {stappen.map((s, i) => (
-            <li key={s.title} className="flex gap-4">
-              <span className="flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-full bg-gold font-display text-sm font-bold text-white">
-                {i + 1}
-              </span>
-              <div className="pt-1">
-                <h3 className="font-display text-lg font-bold text-ink">{s.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-graphite">{s.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-        <p className="reveal mt-8 text-sm leading-relaxed text-graphite">
+
+        <div className="relative mx-auto mt-14 max-w-4xl">
+          {/* Verbindende gouden lijn achter de cirkels (alleen desktop) */}
+          <span
+            className="absolute left-[16.6667%] right-[16.6667%] top-7 hidden h-px bg-gold/30 sm:block"
+            aria-hidden
+          />
+          <ol className="reveal-stagger grid gap-8 sm:grid-cols-3">
+            {stappen.map((s, i) => (
+              <li key={s.title} className="relative flex flex-col items-center text-center">
+                <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gold font-display text-xl font-bold text-white ring-8 ring-cream">
+                  {i + 1}
+                </span>
+                <h3 className="mt-5 font-display text-lg font-bold text-ink">{s.title}</h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-graphite">{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <p className="reveal mx-auto mt-14 max-w-2xl text-center text-sm leading-relaxed text-graphite">
           Interesse tonen is gratis en vrijblijvend. Je zit nergens aan vast tot je zelf besluit
           je unit of kantoor vast te leggen.
         </p>
-      </MediaSplit>
+      </Section>
 
       {/* Mini-FAQ */}
       <Section className="bg-white">
