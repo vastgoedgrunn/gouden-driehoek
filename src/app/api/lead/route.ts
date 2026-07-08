@@ -1,16 +1,25 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendLeadEmails } from "@/lib/email";
+import { isValidPhone } from "@/lib/format";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const naam = String(body.naam ?? "").trim();
     const email = String(body.email ?? "").trim();
+    const telefoon = String(body.telefoon ?? "").trim();
 
     if (!naam || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       return NextResponse.json(
         { error: "Vul minimaal een geldige naam en e-mailadres in." },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidPhone(telefoon)) {
+      return NextResponse.json(
+        { error: "Vul een geldig telefoonnummer in." },
         { status: 400 },
       );
     }
@@ -27,7 +36,7 @@ export async function POST(request: Request) {
     const lead = {
       naam,
       email,
-      telefoon: body.telefoon ? String(body.telefoon).trim() : null,
+      telefoon,
       bedrijfsnaam: body.bedrijfsnaam ? String(body.bedrijfsnaam).trim() : null,
       interesse_type: interesseType,
       gewenste_m2: body.gewenste_m2 ? String(body.gewenste_m2).trim() : null,

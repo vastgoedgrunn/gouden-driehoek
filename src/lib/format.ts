@@ -29,6 +29,24 @@ export function parseDiscount(raw: unknown, fallback = 10): number {
   return Number.isFinite(n) && n >= 0 ? n : fallback;
 }
 
+/**
+ * Valideert of een ingevoerde waarde een plausibel (echt) telefoonnummer is.
+ * Toegestaan: cijfers met optioneel een leidende '+', plus scheidingstekens
+ * (spatie, '-', '.', '(', ')', '/'). Na normalisatie moeten er 8–15 cijfers
+ * overblijven (E.164-max = 15). Dit vangt onzin en te korte nummers af zonder
+ * legitieme (inter)nationale formats te blokkeren.
+ */
+export function isValidPhone(raw: unknown): boolean {
+  const value = String(raw ?? "").trim();
+  if (!value) return false;
+  // Alleen cijfers, spaties en gangbare telefoon-scheidingstekens toegestaan.
+  if (!/^[+()/.\-\s\d]+$/.test(value)) return false;
+  const plusCount = (value.match(/\+/g) ?? []).length;
+  if (plusCount > 1 || (plusCount === 1 && value.trim()[0] !== "+")) return false;
+  const digits = value.replace(/\D/g, "");
+  return digits.length >= 8 && digits.length <= 15;
+}
+
 export function statusLabel(status: UnitStatus): string {
   switch (status) {
     case "beschikbaar":

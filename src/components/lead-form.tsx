@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, MapPin } from "lucide-react";
+import { isValidPhone } from "@/lib/format";
 
 const field =
   "h-12 w-full rounded-xl border border-line bg-white px-4 text-sm text-ink outline-none transition-shadow placeholder:text-mist focus:ring-2 focus:ring-gold";
@@ -20,6 +21,7 @@ export function LeadForm({
   const [message, setMessage] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const naamRef = useRef<HTMLInputElement>(null);
+  const telefoonRef = useRef<HTMLInputElement>(null);
 
   // Bij een deep-link (bv. vanaf een unit) het formulier rustig in beeld
   // brengen en de cursor klaarzetten — behulpzaam, niet opdringerig.
@@ -32,10 +34,26 @@ export function LeadForm({
     return () => window.clearTimeout(t);
   }, [presetUnit]);
 
+  // Toont een nette, native validatiemelding bij een ongeldig telefoonnummer.
+  function validatePhone(input: HTMLInputElement | null) {
+    if (!input) return;
+    const value = input.value.trim();
+    if (value && !isValidPhone(value)) {
+      input.setCustomValidity("Vul een geldig telefoonnummer in.");
+    } else {
+      input.setCustomValidity("");
+    }
+  }
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setState("loading");
     const form = e.currentTarget;
+    validatePhone(telefoonRef.current);
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    setState("loading");
     const data = Object.fromEntries(new FormData(form).entries());
     try {
       const res = await fetch("/api/lead", {
@@ -108,9 +126,21 @@ export function LeadForm({
         </div>
         <div>
           <label htmlFor="telefoon" className={labelCls}>
-            Telefoon
+            Telefoon *
           </label>
-          <input id="telefoon" name="telefoon" type="tel" autoComplete="tel" className={field} placeholder="06 …" />
+          <input
+            ref={telefoonRef}
+            id="telefoon"
+            name="telefoon"
+            type="tel"
+            required
+            inputMode="tel"
+            autoComplete="tel"
+            className={field}
+            placeholder="06 12345678"
+            onInput={(e) => validatePhone(e.currentTarget)}
+            onBlur={(e) => validatePhone(e.currentTarget)}
+          />
         </div>
         <div>
           <label htmlFor="interesse_type" className={labelCls}>
