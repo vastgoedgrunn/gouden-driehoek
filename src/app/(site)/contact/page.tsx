@@ -100,7 +100,7 @@ export default async function ContactPage({
               <p className="mt-2 text-sm text-graphite">
                 Tijdens de voorverkoop profiteer je van{" "}
                 {parseDiscount(content.presale_discount)}% korting en heb je de
-                meeste keuze in units en indeling.
+                meeste keuze in units en combinaties.
               </p>
             </div>
           </aside>

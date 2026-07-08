@@ -12,7 +12,7 @@ import { ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Voorverkoop",
   description:
-    "Profiteer van de voorverkoop van De Gouden Driehoek met 10% korting en de meeste keuze in units en indeling.",
+    "Profiteer van de voorverkoop van De Gouden Driehoek met 10% korting en de meeste keuze in units en combinaties.",
   alternates: { canonical: "/voorverkoop" },
 };
 
@@ -25,7 +25,7 @@ export default async function VoorverkoopPage() {
       <PageHero
         eyebrow="Voorverkoop"
         title={`Nu instappen met ${discount}% korting`}
-        intro="Als je er vroeg bij bent, profiteer je van het scherpste tarief én heb je de meeste keuze in units, kantoren en indeling."
+        intro="Als je er vroeg bij bent, profiteer je van het scherpste tarief én heb je de meeste keuze in units, kantoren en combinaties."
         actions={
           <ButtonLink href="/contact">
             Toon je interesse
@@ -39,7 +39,7 @@ export default async function VoorverkoopPage() {
         <div className="reveal-stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <FeatureCard icon={<BadgePercent className="h-6 w-6" />} title={`${discount}% korting`} text="Het voordeligste tarief geldt uitsluitend tijdens de voorverkoop." />
           <FeatureCard icon={<ListChecks className="h-6 w-6" />} title="Meeste keuze" text="Kies als eerste je favoriete unit of kantoor op de beste plek." />
-          <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Inspraak in indeling" text="De kantoorlaag is vrij indeelbaar. Stem hem af op jouw wensen." />
+          <FeatureCard icon={<KeyRound className="h-6 w-6" />} title="Ruimtes te combineren" text="Combineer in overleg meerdere kantoren tot één grotere ruimte." />
           <FeatureCard icon={<CalendarClock className="h-6 w-6" />} title="Vroeg zekerheid" text="Leg nu je plek vast en bouw mee aan De Gouden Driehoek." />
         </div>
       </Section>

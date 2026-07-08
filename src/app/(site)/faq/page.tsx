@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const faqs: { q: string; a: string }[] = [
   {
     q: "Wat is de voorverkoop precies?",
-    a: "Tijdens de voorverkoop leg je jouw unit of kantoor vast vóór de bouw, tegen het scherpste tarief (10% korting) en met de meeste keuze in plek en indeling. Je bent er zo als eerste bij.",
+    a: "Tijdens de voorverkoop leg je jouw unit of kantoor vast vóór de bouw, tegen het scherpste tarief (10% korting) en met de meeste keuze in plek en combinatie. Je bent er zo als eerste bij.",
   },
   {
     q: "Kan ik kopen én huren?",
@@ -26,8 +26,8 @@ const faqs: { q: string; a: string }[] = [
     a: "Je toont interesse via het formulier, we plannen een persoonlijk gesprek en bespreken unit, indeling, oppervlakte en prijs. Daarna leg je jouw ruimte vrijblijvend en stapsgewijs vast tegen het voorverkooptarief.",
   },
   {
-    q: "Kan ik de indeling zelf bepalen?",
-    a: "De kantoorlaag is vrij indeelbaar en volledig af te stemmen op jouw wensen, van één compacte unit tot een volledige vleugel. Ook bedrijfsunits zijn onderling te combineren tot de gewenste maat.",
+    q: "Kan ik meerdere ruimtes combineren tot één grotere ruimte?",
+    a: "De ruimtes liggen vast zoals de plattegrond ze toont. In overleg is het wél mogelijk om meerdere kantoren af te nemen en die te koppelen tot één grotere ruimte. Ook bedrijfsunits zijn onderling te combineren tot de gewenste maat.",
   },
   {
     q: "Zijn de genoemde prijzen inclusief of exclusief btw?",
@@ -91,7 +91,7 @@ export default function FaqPage() {
           </h2>
           <p className="max-w-lg text-graphite">
             We beantwoorden je vraag graag persoonlijk en denken mee over de beste
-            plek en indeling voor jouw organisatie.
+            plek en combinatie voor jouw organisatie.
           </p>
           <ButtonLink href="/contact" size="lg">
             Toon je interesse

@@ -21,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: "Kantoren",
   description:
-    "20 kantoorunits (type A t/m F, ca. 13,5 tot 67 m²) en een grote gezamenlijke ruimte op de verdieping van De Gouden Driehoek in Stadskanaal. Vrij indeelbaar.",
+    "20 kantoorunits (type A t/m F, ca. 13,5 tot 67 m²) en een grote gezamenlijke ruimte op de verdieping van De Gouden Driehoek in Stadskanaal. Meerdere kantoren zijn in overleg te combineren tot één grotere ruimte.",
   alternates: { canonical: "/kantoren" },
 };
 
@@ -34,9 +34,9 @@ export default async function KantorenPage() {
   return (
     <>
       <PageHero
-        eyebrow="Verdieping · vrij indeelbaar"
+        eyebrow="Verdieping · kantoren te combineren"
         title="Kantoren"
-        intro="Op de verdieping komt representatieve kantoorruimte vol daglicht, met volledig glazen scheidingswanden en een ruime gezamenlijke ruimte. De indeling is flexibel en nog nader te bepalen."
+        intro="Op de verdieping komt representatieve kantoorruimte vol daglicht, met volledig glazen scheidingswanden en een ruime gezamenlijke ruimte. De ruimtes liggen vast zoals op de plattegrond, maar in overleg kun je meerdere kantoren afnemen en die koppelen tot één grotere ruimte."
         image="/impressies/impressie-05.webp"
         imageAlt="Impressie van de kantoorruimte van De Gouden Driehoek"
         actions={
@@ -67,13 +67,13 @@ export default async function KantorenPage() {
         <SectionHeading
           eyebrow="Plattegrond 1e verdieping"
           title="De indeling in beeld"
-          intro="Voorlopige indeling (schaal 1:200). De indeling is nog nader te bepalen en volledig af te stemmen op jouw wensen."
+          intro="De indeling van de verdieping (schaal 1:200). De ruimtes liggen vast zoals hieronder; in overleg kun je meerdere kantoren combineren tot één grotere ruimte."
         />
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-start">
           <PlanViewer
             src="/plattegronden/kantoorverdieping.webp"
             alt="Plattegrond 1e verdieping De Gouden Driehoek met kantoortypen A t/m F en gezamenlijke ruimte"
-            caption="1e verdieping · schaal 1:200 · indeling nader te bepalen"
+            caption="1e verdieping · schaal 1:200 · kantoren in overleg te combineren"
             width={1817}
             height={866}
           />
@@ -109,7 +109,7 @@ export default async function KantorenPage() {
         <SectionHeading
           eyebrow="Kies je kantoor"
           title="Ontdek de indeling"
-          intro="Klik in de plattegrond of tik op een kantoor voor de oppervlakte en het type. De verdieping is vrij indeelbaar; prijzen op aanvraag."
+          intro="Klik in de plattegrond of tik op een kantoor voor de oppervlakte en het type. Meerdere kantoren zijn in overleg te combineren; prijzen op aanvraag."
         />
         <div className="mt-10">
           <AvailabilityExplorer units={kantoren} discount={discount} />
@@ -147,9 +147,8 @@ export default async function KantorenPage() {
             Welke maat past bij jouw organisatie?
           </h3>
           <p className="max-w-lg text-graphite">
-            De verdieping is vrij indeelbaar. Van één compacte unit tot een
-            volledige vleugel. We stemmen de indeling en oppervlakte samen met je
-            af.
+            Kies één kantoor of combineer er in overleg meerdere tot één grotere
+            ruimte. Zo stemmen we de oppervlakte samen met je af.
           </p>
           <ButtonLink href="/contact">
             Bespreek de mogelijkheden

@@ -115,8 +115,8 @@ export default async function HomePage() {
           <FeatureCard
             surface="cream"
             icon={<Building2 className="h-6 w-6" />}
-            title="Flexibel indeelbaar"
-            text="De kantoorlaag is vrij in te delen naar jouw wensen."
+            title="Ruimtes te combineren"
+            text="Neem één kantoor of combineer er in overleg meerdere tot één grotere ruimte."
           />
           <FeatureCard
             surface="cream"
@@ -149,7 +149,7 @@ export default async function HomePage() {
             image="/impressies/impressie-05.webp"
             icon={<Briefcase className="h-5 w-5" />}
             title="Kantoren"
-            subtitle="Verdieping · vrij indeelbaar"
+            subtitle="Verdieping · te combineren"
             from={Number.isFinite(minKantoor) ? formatPrice(presalePrice(minKantoor, discount)) : undefined}
             count={kantoren.length}
           />
@@ -191,7 +191,7 @@ export default async function HomePage() {
             </h2>
             <p className="mt-5 text-lg text-white/80">
               Wie er vroeg bij is, profiteert van het voordeligste tarief en de
-              meeste keuze in units en indeling. Laat je gegevens achter en we
+              meeste keuze in units en combinaties. Laat je gegevens achter en we
               houden je op de hoogte.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4">

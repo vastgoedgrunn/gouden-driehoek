@@ -68,7 +68,7 @@ export default async function OverPage() {
               <p>
                 De Gouden Driehoek is ontworpen als een herkenbaar en
                 representatief bedrijfsgebouw: robuuste bedrijfsunits op de
-                begane grond en lichte, flexibele kantoorruimte op de
+                begane grond en lichte, representatieve kantoorruimte op de
                 verdieping.
               </p>
               <p>
