@@ -191,8 +191,10 @@ export default async function HomePage() {
             </h2>
             <p className="mt-5 text-lg text-white/80">
               Wie er vroeg bij is, profiteert van het voordeligste tarief en de
-              meeste keuze in units en combinaties. Laat je gegevens achter en we
-              houden je op de hoogte.
+              meeste keuze in units en combinaties. Het ontwerp is goedgekeurd
+              door de gemeente en de omgevingsvergunning is verleend, dus het
+              project heeft groen licht. Laat je gegevens achter en we houden je
+              op de hoogte.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4">
               <NewsletterForm dark />

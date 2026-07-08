@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const planning = [
   { fase: "Fase 1", title: "Voorverkoop", text: "Belangstellenden leggen units en kantoren vast tegen het voorverkooptarief." },
-  { fase: "Fase 2", title: "Ontwerp & vergunning", text: "Het definitieve ontwerp en de indeling worden uitgewerkt en vergund." },
+  { fase: "Fase 2", title: "Ontwerp & vergunning", text: "Afgerond: het ontwerp is goedgekeurd door de gemeente en de omgevingsvergunning is verleend." },
   { fase: "Fase 3", title: "Realisatie", text: "De bouw start; kopers worden meegenomen in de voortgang." },
   { fase: "Fase 4", title: "Oplevering", text: "Sleuteloverdracht en ingebruikname van units en kantoren." },
 ];

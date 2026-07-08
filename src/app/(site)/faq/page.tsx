@@ -34,6 +34,10 @@ const faqs: { q: string; a: string }[] = [
     a: "De getoonde bedragen zijn indicatief en exclusief btw en bijkomende kosten, tenzij anders vermeld. In een persoonlijk gesprek ontvang je een volledige, actuele prijsopgave.",
   },
   {
+    q: "Is de vergunning al rond?",
+    a: "Ja. Het ontwerp is goedgekeurd door de gemeente en de omgevingsvergunning is verleend. Het project heeft dus groen licht om te bouwen, wat extra zekerheid geeft wanneer je nu in de voorverkoop instapt.",
+  },
+  {
     q: "Wanneer wordt het gebouw opgeleverd?",
     a: "De planning kent vier fasen: voorverkoop, definitief ontwerp & vergunning, realisatie en oplevering. Zodra de exacte opleverdatum bekend is, informeren we belangstellenden persoonlijk en via de nieuwsbrief.",
   },
